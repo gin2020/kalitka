@@ -1,0 +1,22 @@
+.content {
+  display: grid;
+  gap: 16px;
+}
+
+.description {
+  margin: 0;
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.actions {
+  display: grid;
+  gap: 10px;
+}
+
+@media (min-width: 480px) {
+  .actions {
+    grid-template-columns: 1fr 1fr;
+  }
+}

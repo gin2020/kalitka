@@ -3,14 +3,28 @@
   --background: #f7f8f6;
   --foreground: #101418;
   --muted: #5f6770;
+  --muted-soft: #8a929a;
   --surface: #ffffff;
   --surface-strong: #eef2ef;
+  --surface-muted: #f2f5f3;
   --accent: #1f8a5b;
   --accent-strong: #176c47;
   --accent-soft: #d9f4e6;
+  --danger: #b93838;
+  --danger-soft: #fde8e8;
+  --warning: #9a6a13;
+  --warning-soft: #fff3cf;
+  --info: #276b9f;
+  --info-soft: #e1f0fb;
   --line: rgba(16, 20, 24, 0.1);
+  --line-strong: rgba(16, 20, 24, 0.16);
   --shadow: 0 24px 70px rgba(12, 22, 18, 0.14);
+  --shadow-soft: 0 16px 44px rgba(12, 22, 18, 0.1);
   --radius: 28px;
+  --radius-md: 18px;
+  --radius-sm: 12px;
+  --tap-size: 44px;
+  --focus-ring: 0 0 0 4px rgba(31, 138, 91, 0.22);
   --font-sans: Arial, Helvetica, sans-serif;
 }
 
@@ -37,8 +51,29 @@ body {
 }
 
 button,
-a {
+a,
+input,
+textarea,
+select {
   font: inherit;
+}
+
+button,
+input,
+textarea,
+select {
+  letter-spacing: 0;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:disabled,
+input:disabled,
+textarea:disabled,
+select:disabled {
+  cursor: not-allowed;
 }
 
 a {

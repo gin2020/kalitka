@@ -1,0 +1,32 @@
+.container {
+  width: 100%;
+  min-height: 100dvh;
+  margin: 0 auto;
+  padding:
+    max(20px, env(safe-area-inset-top))
+    20px
+    max(24px, env(safe-area-inset-bottom));
+}
+
+.narrow {
+  max-width: 460px;
+}
+
+.default {
+  max-width: 720px;
+}
+
+.wide {
+  max-width: 1040px;
+}
+
+.withBottomNavigation {
+  padding-bottom: calc(94px + env(safe-area-inset-bottom));
+}
+
+@media (min-width: 720px) {
+  .container {
+    padding-right: 32px;
+    padding-left: 32px;
+  }
+}

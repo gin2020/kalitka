@@ -1,0 +1,32 @@
+.card {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  color: var(--foreground);
+}
+
+.default {
+  box-shadow: 0 10px 34px rgba(12, 22, 18, 0.06);
+}
+
+.soft {
+  background: rgba(255, 255, 255, 0.78);
+  box-shadow: var(--shadow-soft);
+  backdrop-filter: blur(16px);
+}
+
+.outlined {
+  box-shadow: none;
+}
+
+.compact {
+  padding: 14px;
+}
+
+.normal {
+  padding: 18px;
+}
+
+.spacious {
+  padding: 22px;
+}
