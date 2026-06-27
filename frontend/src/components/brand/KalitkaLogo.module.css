@@ -1,0 +1,27 @@
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  color: var(--foreground);
+  font-weight: 700;
+}
+
+.mark {
+  display: grid;
+  width: 38px;
+  height: 38px;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+  box-shadow: 0 10px 30px rgba(12, 22, 18, 0.08);
+  color: var(--accent-strong);
+  font-size: 18px;
+  line-height: 1;
+}
+
+.name {
+  font-size: 18px;
+  line-height: 1;
+}
