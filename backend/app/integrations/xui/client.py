@@ -55,5 +55,18 @@ class XUIClient:
 
         return response.json()
 
+    async def get_client(self, email: str) -> dict:
+        async with httpx.AsyncClient(timeout=20) as client:
+            response = await client.get(
+                f"{self.base_url}/panel/api/clients/traffic/{email}",
+                headers=self.headers,
+            )
+
+        data = response.json()
+
+        if not data.get("success"):
+            raise RuntimeError(data.get("msg", "Unknown 3x-ui error"))
+
+        return data
 
 xui_client = XUIClient()

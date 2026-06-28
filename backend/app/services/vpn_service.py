@@ -1,20 +1,19 @@
 import secrets
 
+from app.core.config import settings
 from app.integrations.xui.client import xui_client
 
-
-TRIAL_TRAFFIC_BYTES = 1024 * 1024 * 1024  # 1 GB
+TRIAL_TRAFFIC_BYTES = 1024 * 1024 * 1024
 
 
 class VPNService:
     @staticmethod
     def generate_client_email() -> str:
-        return f"u_{secrets.token_hex(8)}@kalitka.local"
+        return f"{secrets.token_hex(8)}@kalitka.local"
 
     async def create_trial(self) -> dict:
         email = self.generate_client_email()
 
-        # Создаем клиента в 3x-ui
         create_result = await xui_client.create_client(
             email=email,
             traffic_bytes=TRIAL_TRAFFIC_BYTES,
@@ -23,22 +22,27 @@ class VPNService:
         )
 
         if not create_result.get("success"):
-            raise Exception(
-                create_result.get("msg", "Failed to create client in 3x-ui")
-            )
+            raise RuntimeError(create_result.get("msg"))
 
-        # Получаем ссылки
-        links_result = await xui_client.get_links(email)
+        client = await xui_client.get_client(email)
 
-        if not links_result.get("success"):
-            raise Exception(
-                links_result.get("msg", "Failed to get client links")
-            )
+        sub_id = client["obj"]["subId"]
+
+        subscription_url = (
+            f"{settings.XUI_SUBSCRIPTION_BASE}/{sub_id}"
+        )
 
         return {
             "success": True,
-            "email": email,
-            "subscription": links_result["obj"],
+            "trial": {
+                "subscriptionUrl": subscription_url,
+                "trafficLimit": "1 GB",
+                "country": "Germany",
+                "protocols": [
+                    "VLESS Reality",
+                    "Hysteria 2"
+                ]
+            }
         }
 
 
