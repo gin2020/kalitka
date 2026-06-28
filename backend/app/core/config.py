@@ -1,12 +1,18 @@
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
     PROJECT_NAME: str = "Kalitka API"
     VERSION: str = "0.1.0"
 
-    class Config:
-        env_file = ".env"
+    XUI_BASE_URL: str
+    XUI_API_TOKEN: str
+    XUI_DEFAULT_INBOUND_ID: int
+
+    model_config = SettingsConfigDict(
+        env_file=".env",
+        extra="ignore",
+    )
 
 
 settings = Settings()
