@@ -3,9 +3,10 @@
 import { useState } from "react";
 
 import { KalitkaLogo } from "@/components/brand/KalitkaLogo";
+import { TrialDialog } from "@/features/landing/ui/TrialDialog";
 import { useCreateTrial } from "@/features/trial/hooks/useCreateTrial";
-import { Dialog } from "@/shared/ui/Dialog/Dialog";
 import { PrimaryAction } from "@/shared/ui/PrimaryAction";
+import { Spinner } from "@/shared/ui/Spinner/Spinner";
 
 import styles from "./LandingHero.module.css";
 
@@ -15,15 +16,13 @@ export function LandingHero() {
   const [dialogOpen, setDialogOpen] = useState(false);
 
   async function handleCreateTrial() {
-    await startTrial();
-    setDialogOpen(true);
-  }
-
-  function copySubscription() {
-    if (!trial) return;
-
-    navigator.clipboard.writeText(trial.subscriptionUrl);
-    alert("Подписка скопирована");
+    try {
+      await startTrial();
+      setDialogOpen(true);
+    } catch (err) {
+      console.error(err);
+      setDialogOpen(true);
+    }
   }
 
   return (
@@ -35,16 +34,21 @@ export function LandingHero() {
           </header>
 
           <div className={styles.offer}>
-            <p className={styles.badge}>Быстрый старт без настроек</p>
+            <p className={styles.badge}>
+              Быстрый старт без настроек
+            </p>
 
-            <h1 id="landing-title" className={styles.title}>
+            <h1
+              id="landing-title"
+              className={styles.title}
+            >
               1 ГБ VPN бесплатно
             </h1>
 
             <p className={styles.description}>
-              Получите доступ за пару нажатий.
-              Kalitka сама подготовит VPN,
-              а вы просто подключитесь.
+              Получите VPN за пару нажатий.
+              Kalitka автоматически подготовит
+              подписку для Happ.
             </p>
           </div>
 
@@ -53,52 +57,41 @@ export function LandingHero() {
               onClick={handleCreateTrial}
               disabled={loading}
             >
-              {loading
-                ? "Создаем VPN..."
-                : "Начать пользоваться"}
+              {loading ? (
+                <>
+                  <Spinner />
+                  Создаем VPN...
+                </>
+              ) : (
+                "Начать пользоваться"
+              )}
             </PrimaryAction>
 
-            <a href="#" className={styles.accountLink}>
+            <a
+              href="#"
+              className={styles.accountLink}
+            >
               Уже есть аккаунт?
             </a>
           </div>
         </div>
       </section>
 
-      <Dialog
-        isOpen={dialogOpen}
-        title={trial ? "VPN готов" : "Ошибка"}
-        cancelLabel="Закрыть"
-        confirmLabel={trial ? "Скопировать" : undefined}
-        onCancel={() => setDialogOpen(false)}
-        onConfirm={trial ? copySubscription : undefined}
-      >
-        {trial ? (
-          <>
-            <strong>Германия 🇩🇪</strong>
+      {trial && (
+        <TrialDialog
+          isOpen={dialogOpen}
+          subscriptionUrl={trial.subscriptionUrl}
+          onClose={() => setDialogOpen(false)}
+        />
+      )}
 
-            <br />
-            <br />
-
-            1 ГБ бесплатно
-
-            <br />
-            <br />
-
-            <code
-              style={{
-                display: "block",
-                wordBreak: "break-all",
-                fontSize: 12,
-              }}
-            >
-              {trial.subscriptionUrl}
-            </code>
-          </>
-        ) : (
-          error ?? "Не удалось создать VPN"
-        )}
-      </Dialog>
+      {!trial && dialogOpen && error && (
+        <TrialDialog
+          isOpen={dialogOpen}
+          subscriptionUrl=""
+          onClose={() => setDialogOpen(false)}
+        />
+      )}
     </>
   );
 }

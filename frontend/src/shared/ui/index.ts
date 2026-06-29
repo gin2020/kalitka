@@ -10,3 +10,5 @@ export { Modal } from "./Modal/Modal";
 export { PageContainer } from "./PageContainer/PageContainer";
 export { ProgressBar } from "./ProgressBar/ProgressBar";
 export { Section } from "./Section/Section";
+export { Toast } from "./Toast/Toast";
+export { Spinner } from "./Spinner/Spinner";
