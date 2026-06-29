@@ -62,11 +62,9 @@ class XUIClient:
                 headers=self.headers,
             )
 
-        data = response.json()
+        response.raise_for_status()
 
-        if not data.get("success"):
-            raise RuntimeError(data.get("msg", "Unknown 3x-ui error"))
-
-        return data
+        return response.json()
 
 xui_client = XUIClient()
+

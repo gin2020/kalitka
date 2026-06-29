@@ -1,3 +1,4 @@
+from app.core.config import settings
 from app.models.subscription import Subscription
 from app.repositories.subscription_repository import (
     SubscriptionRepository,
@@ -48,3 +49,12 @@ class SubscriptionService:
 
     async def list(self) -> list[Subscription]:
         return await self.repository.list()
+
+    @staticmethod
+    def build_subscription_url(
+        subscription_token: str,
+    ) -> str:
+        return (
+            f"{settings.XUI_SUBSCRIPTION_BASE}/"
+            f"{subscription_token}"
+        )
