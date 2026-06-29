@@ -5,6 +5,8 @@ class Settings(BaseSettings):
     PROJECT_NAME: str = "Kalitka API"
     VERSION: str = "0.1.0"
 
+    DATABASE_URL: str
+
     XUI_SUBSCRIPTION_BASE: str 
     XUI_BASE_URL: str
     XUI_API_TOKEN: str
