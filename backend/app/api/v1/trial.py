@@ -29,9 +29,28 @@ async def create_trial(
     try:
         trial_cookie = request.cookies.get(COOKIE_NAME)
 
-        # Пока просто читаем cookie.
-        # Логику повторного использования добавим
-        # следующим шагом.
+        if trial_cookie:
+            subscription = await subscription_service.get_by_token(
+                trial_cookie
+            )
+
+            if subscription:
+                return {
+                    "success": True,
+                    "trial": {
+                        "subscriptionUrl": (
+                            subscription_service.build_subscription_url(
+                                subscription.subscription_token
+                            )
+                        ),
+                        "trafficLimit": "1 GB",
+                        "country": subscription.country,
+                        "protocols": [
+                            subscription.protocol,
+                            "Hysteria 2",
+                        ],
+                    },
+                }
 
         vpn = await vpn_service.create_trial()
 
