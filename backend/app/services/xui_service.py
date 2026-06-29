@@ -41,6 +41,7 @@ class XUIService:
                 f"{settings.XUI_SUBSCRIPTION_BASE}/"
                 f"{subscription_token}"
             ),
+            "client_email": email,
             "country": "Germany",
             "protocol": "VLESS Reality",
             "traffic_limit": TRIAL_TRAFFIC_BYTES,

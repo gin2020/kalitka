@@ -6,7 +6,8 @@ from pydantic import BaseModel
 
 class SubscriptionCreate(BaseModel):
     subscription_token: str
-    xui_client_id: str
+    xui_client_id: str | None = None
+    client_email: str
     country: str = "Germany"
     protocol: str = "VLESS Reality"
     traffic_limit: int = 1073741824

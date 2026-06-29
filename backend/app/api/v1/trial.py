@@ -37,6 +37,7 @@ async def create_trial(
 
         await subscription_service.create_trial(
             subscription_token=vpn["subscription_token"],
+            client_email=vpn["client_email"],
             country=vpn["country"],
             protocol=vpn["protocol"],
             traffic_limit=vpn["traffic_limit"],

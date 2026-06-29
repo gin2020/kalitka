@@ -27,6 +27,12 @@ class Subscription(BaseModel):
         nullable=True,
     )
 
+    client_email: Mapped[str] = mapped_column(
+        String(255),
+        unique=True,
+        index=True,
+    )
+
     country: Mapped[str] = mapped_column(
         String(64),
         default="Germany",

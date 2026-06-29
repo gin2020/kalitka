@@ -20,6 +20,7 @@ class SubscriptionService:
         return await self.repository.create(
             subscription_token=data.subscription_token,
             xui_client_id=data.xui_client_id,
+            client_email=data.client_email,
             country=data.country,
             protocol=data.protocol,
             traffic_limit=data.traffic_limit,
@@ -29,6 +30,7 @@ class SubscriptionService:
     async def create_trial(
         self,
         subscription_token: str,
+        client_email: str,
         country: str,
         protocol: str,
         traffic_limit: int,
@@ -36,6 +38,7 @@ class SubscriptionService:
         return await self.repository.create(
             subscription_token=subscription_token,
             xui_client_id=None,
+            client_email=client_email,
             country=country,
             protocol=protocol,
             traffic_limit=traffic_limit,
