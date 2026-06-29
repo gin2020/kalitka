@@ -31,7 +31,11 @@ export function Dialog({
   return (
     <Modal isOpen={isOpen} onClose={onCancel} title={title}>
       <div className={styles.content}>
-        {children ? <p className={styles.description}>{children}</p> : null}
+        {children ? (
+          <div className={styles.description}>
+            {children}
+          </div>
+        ) : null}
         <div className={styles.actions}>
           <Button variant="secondary" onClick={onCancel}>
             {cancelLabel}
