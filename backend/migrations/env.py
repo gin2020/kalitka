@@ -1,5 +1,3 @@
-import app.models
-
 from logging.config import fileConfig
 from asyncio import run
 
@@ -11,6 +9,9 @@ from sqlalchemy.ext.asyncio import async_engine_from_config
 
 from app.core.config import settings
 from app.db.models import Base
+
+import app.models
+
 config = context.config
 
 config.set_main_option(

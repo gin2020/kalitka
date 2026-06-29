@@ -26,23 +26,18 @@ class VPNService:
 
         client = await xui_client.get_client(email)
 
-        sub_id = client["obj"]["subId"]
+        subscription_token = client["obj"]["subId"]
 
         subscription_url = (
-            f"{settings.XUI_SUBSCRIPTION_BASE}/{sub_id}"
+            f"{settings.XUI_SUBSCRIPTION_BASE}/{subscription_token}"
         )
 
         return {
-            "success": True,
-            "trial": {
-                "subscriptionUrl": subscription_url,
-                "trafficLimit": "1 GB",
-                "country": "Germany",
-                "protocols": [
-                    "VLESS Reality",
-                    "Hysteria 2"
-                ]
-            }
+            "subscription_token": subscription_token,
+            "subscription_url": subscription_url,
+            "country": "Germany",
+            "protocol": "VLESS Reality",
+            "traffic_limit": TRIAL_TRAFFIC_BYTES,
         }
 
 
