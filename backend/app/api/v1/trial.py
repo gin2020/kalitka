@@ -9,6 +9,7 @@ from fastapi import (
 from app.api.deps import get_subscription_service
 from app.services.subscription_service import SubscriptionService
 from app.services.vpn_service import vpn_service
+from app.services.xui_service import xui_service
 
 router = APIRouter(
     prefix="/trial",
@@ -35,22 +36,27 @@ async def create_trial(
             )
 
             if subscription:
-                return {
-                    "success": True,
-                    "trial": {
-                        "subscriptionUrl": (
-                            subscription_service.build_subscription_url(
-                                subscription.subscription_token
-                            )
-                        ),
-                        "trafficLimit": "1 GB",
-                        "country": subscription.country,
-                        "protocols": [
-                            subscription.protocol,
-                            "Hysteria 2",
-                        ],
-                    },
-                }
+                exists = await xui_service.client_exists(
+                    subscription.client_email
+                )
+
+                if exists:
+                    return {
+                        "success": True,
+                        "trial": {
+                            "subscriptionUrl": (
+                                subscription_service.build_subscription_url(
+                                    subscription.subscription_token
+                                )
+                            ),
+                            "trafficLimit": "1 GB",
+                            "country": subscription.country,
+                            "protocols": [
+                                subscription.protocol,
+                                "Hysteria 2",
+                            ],
+                        },
+                    }
 
         vpn = await vpn_service.create_trial()
 

@@ -64,7 +64,32 @@ class XUIClient:
 
         response.raise_for_status()
 
-        return response.json()
+        data = response.json()
+
+        if not data.get("success"):
+            raise RuntimeError(
+                data.get("msg", "Client not found")
+            )
+
+        return data
+
+    async def get_client_info(self, email: str) -> dict:
+        async with httpx.AsyncClient(timeout=20) as client:
+            response = await client.get(
+                f"{self.base_url}/panel/api/clients/get/{email}",
+                headers=self.headers,
+            )
+
+        response.raise_for_status()
+
+        data = response.json()
+
+        if not data.get("success"):
+            raise RuntimeError(
+                data.get("msg", "Client not found")
+            )
+
+        return data
 
 xui_client = XUIClient()
 

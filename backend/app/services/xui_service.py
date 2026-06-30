@@ -11,6 +11,16 @@ class XUIService:
     def generate_client_email() -> str:
         return f"{secrets.token_hex(8)}@kalitka.local"
 
+    async def client_exists(
+        self,
+        email: str,
+    ) -> bool:
+        try:
+            await xui_client.get_client_info(email)
+            return True
+        except Exception:
+            return False
+
     async def create_trial(self) -> dict:
         email = self.generate_client_email()
 
