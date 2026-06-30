@@ -3,6 +3,7 @@ import type {
   ButtonHTMLAttributes,
   ReactNode,
 } from "react";
+
 import styles from "./PrimaryAction.module.css";
 
 type LinkProps = AnchorHTMLAttributes<HTMLAnchorElement> & {
@@ -18,28 +19,45 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 type PrimaryActionProps = LinkProps | ButtonProps;
 
 export function PrimaryAction(props: PrimaryActionProps) {
-  if ("href" in props) {
-    const { children, className, href, ...rest } = props;
-
-    const classes = className
-      ? `${styles.action} ${className}`
-      : styles.action;
+  if (typeof props.href === "string") {
+    const {
+      children,
+      className,
+      href,
+      ...rest
+    } = props as LinkProps;
 
     return (
-      <a className={classes} href={href} {...rest}>
+      <a
+        className={
+          className
+            ? `${styles.action} ${className}`
+            : styles.action
+        }
+        href={href}
+        {...rest}
+      >
         {children}
       </a>
     );
   }
 
-  const { children, className, ...rest } = props;
-
-  const classes = className
-    ? `${styles.action} ${className}`
-    : styles.action;
+  const {
+    children,
+    className,
+    ...rest
+  } = props as ButtonProps;
 
   return (
-    <button className={classes} type="button" {...rest}>
+    <button
+      className={
+        className
+          ? `${styles.action} ${className}`
+          : styles.action
+      }
+      type="button"
+      {...rest}
+    >
       {children}
     </button>
   );

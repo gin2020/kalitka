@@ -1,6 +1,6 @@
 "use client";
 
-import { Dialog } from "@/shared/ui/Dialog";
+import { Dialog } from "@/shared/ui/Dialog/Dialog";
 
 type Props = {
   open: boolean;
@@ -13,13 +13,22 @@ export function TrialDialog({
   onClose,
   subscriptionUrl,
 }: Props) {
-  if (!open) return null;
+  async function copySubscription() {
+    await navigator.clipboard.writeText(subscriptionUrl);
+    onClose();
+  }
 
   return (
-    <Dialog open={open} onClose={onClose}>
-      <h2>✅ VPN готов</h2>
-
+    <Dialog
+      isOpen={open}
+      onCancel={onClose}
+      onConfirm={copySubscription}
+      confirmLabel="Скопировать подписку"
+      cancelLabel="Закрыть"
+      title="✅ VPN готов"
+    >
       <p>Германия</p>
+
       <p>1 ГБ бесплатно</p>
 
       <textarea
@@ -28,16 +37,6 @@ export function TrialDialog({
         rows={4}
         style={{ width: "100%" }}
       />
-
-      <button
-        onClick={() => navigator.clipboard.writeText(subscriptionUrl)}
-      >
-        Скопировать подписку
-      </button>
-
-      <button onClick={onClose}>
-        Закрыть
-      </button>
     </Dialog>
   );
 }
