@@ -1,11 +1,10 @@
-"use client";
+import { MyVpnPage } from "@/features/vpn/ui/MyVpnPage";
+import { PageContainer } from "@/shared/ui";
 
-export function MyVpnPage() {
+export default function Page() {
   return (
-    <>
-      <h1>🟢 Моя VPN</h1>
-
-      <p>Загрузка...</p>
-    </>
+    <PageContainer>
+      <MyVpnPage />
+    </PageContainer>
   );
 }
