@@ -15,7 +15,7 @@ import {
 } from "@/shared/api/vpn";
 
 import { VpnStatusCard } from "./VpnStatusCard";
-
+import { MyVpnHeader } from "./MyVpnHeader";
 export function MyVpnPage() {
   const [vpn, setVpn] =
     useState<MyVpnResponse | null>(null);
@@ -53,6 +53,7 @@ export function MyVpnPage() {
 
   return (
     <>
+      <MyVpnHeader />
       <VpnStatusCard
         country={vpn.country}
         protocol={vpn.protocol}
