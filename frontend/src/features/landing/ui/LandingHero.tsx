@@ -1,5 +1,6 @@
 "use client";
 
+import { getMyVpn } from "@/shared/api/vpn";
 import { useEffect } from "react";
 
 import { useRouter } from "next/navigation";
@@ -17,21 +18,24 @@ export function LandingHero() {
   const router = useRouter();
 
   useEffect(() => {
-    const clientEmail = localStorage.getItem("clientEmail");
+    async function checkSubscription() {
+      try {
+        const vpn = await getMyVpn();
 
-    if (clientEmail) {
-    router.replace("/my-vpn");
+        if (vpn.active) {
+          router.replace("/my-vpn");
+        }
+      } catch {
+        // Нет активной подписки — остаёмся на главной.
+      } 
     }
+
+    checkSubscription();
   }, [router]);
 
   async function handleCreateTrial() {
     try {
-      const trial = await startTrial();
-
-      localStorage.setItem(
-        "clientEmail",
-        trial.clientEmail
-      );
+      await startTrial();
 
       router.push("/my-vpn");
     } catch (err) {
