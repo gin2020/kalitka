@@ -8,8 +8,8 @@ export function MyVpnHeader() {
       <Image
         src="/kalitka-icon.svg"
         alt="Kalitka"
-        width={64}
-        height={64}
+        width={52}
+        height={52}
         priority
       />
 
