@@ -1,5 +1,7 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+
 import { useEffect, useState } from "react";
 
 import {
@@ -16,19 +18,25 @@ export function MyVpnPage() {
   const [loading, setLoading] =
     useState(true);
 
+  const router = useRouter();
+
   useEffect(() => {
     async function load() {
       try {
         const data = await getMyVpn();
 
         setVpn(data);
+      } catch {
+        localStorage.removeItem("clientEmail");
+
+        router.replace("/");
       } finally {
         setLoading(false);
       }
     }
 
     load();
-  }, []);
+  }, [router]);
 
   if (loading) {
     return <p>Загрузка...</p>;
