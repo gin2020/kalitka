@@ -1,10 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect } from "react";
 
 import { useRouter } from "next/navigation";
 import { KalitkaLogo } from "@/components/brand/KalitkaLogo";
-import { TrialDialog } from "@/features/landing/ui/TrialDialog";
+
 import { useCreateTrial } from "@/features/trial/hooks/useCreateTrial";
 import { PrimaryAction } from "@/shared/ui/PrimaryAction";
 import { Spinner } from "@/shared/ui/Spinner/Spinner";
@@ -14,9 +14,15 @@ import styles from "./LandingHero.module.css";
 export function LandingHero() {
   const { loading, trial, error, startTrial } = useCreateTrial();
 
-  const [dialogOpen, setDialogOpen] = useState(false);
-
   const router = useRouter();
+
+  useEffect(() => {
+    const clientEmail = localStorage.getItem("clientEmail");
+
+    if (clientEmail) {
+    router.replace("/my-vpn");
+    }
+  }, [router]);
 
   async function handleCreateTrial() {
     try {
@@ -30,7 +36,7 @@ export function LandingHero() {
       router.push("/my-vpn");
     } catch (err) {
       console.error(err);
-      setDialogOpen(true);
+      alert("Не удалось создать VPN");
     }
   }
 
@@ -85,22 +91,6 @@ export function LandingHero() {
           </div>
         </div>
       </section>
-
-      {trial && (
-        <TrialDialog
-          isOpen={dialogOpen}
-          subscriptionUrl={trial.subscriptionUrl}
-          onClose={() => setDialogOpen(false)}
-        />
-      )}
-
-      {!trial && dialogOpen && error && (
-        <TrialDialog
-          isOpen={dialogOpen}
-          subscriptionUrl=""
-          onClose={() => setDialogOpen(false)}
-        />
-      )}
     </>
   );
 }
