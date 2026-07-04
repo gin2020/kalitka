@@ -7,6 +7,8 @@ import {
   type MyVpnResponse,
 } from "@/shared/api/vpn";
 
+import { VpnStatusCard } from "./VpnStatusCard";
+
 export function MyVpnPage() {
   const [vpn, setVpn] =
     useState<MyVpnResponse | null>(null);
@@ -38,19 +40,13 @@ export function MyVpnPage() {
 
   return (
     <>
-      <h1>🟢 Моя VPN</h1>
+      <h1>🟢 Мой VPN</h1>
 
-      <p>
-        <strong>Страна:</strong> {vpn.country}
-      </p>
-
-      <p>
-        <strong>Протокол:</strong> {vpn.protocol}
-      </p>
-
-      <p>
-        <strong>Статус:</strong> {vpn.status}
-      </p>
+      <VpnStatusCard
+        country={vpn.country}
+        protocol={vpn.protocol}
+        status={vpn.status}
+      />
     </>
   );
 }
