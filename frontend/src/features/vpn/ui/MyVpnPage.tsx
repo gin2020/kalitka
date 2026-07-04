@@ -4,6 +4,11 @@ import { useRouter } from "next/navigation";
 
 import { useEffect, useState } from "react";
 
+import { TrafficCard } from "./TrafficCard";
+import { ActionsCard } from "./ActionsCard";
+import { PurchaseCard } from "./PurchaseCard";
+import { SupportCard } from "./SupportCard";
+
 import {
   getMyVpn,
   type MyVpnResponse,
@@ -48,13 +53,18 @@ export function MyVpnPage() {
 
   return (
     <>
-      <h1>🟢 Мой VPN</h1>
-
       <VpnStatusCard
         country={vpn.country}
         protocol={vpn.protocol}
         status={vpn.status}
       />
+      <TrafficCard />
+
+      <ActionsCard />
+
+      <PurchaseCard />
+
+      <SupportCard />
     </>
   );
 }
