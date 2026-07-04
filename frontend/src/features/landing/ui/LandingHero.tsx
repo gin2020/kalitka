@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 
+import { useRouter } from "next/navigation";
 import { KalitkaLogo } from "@/components/brand/KalitkaLogo";
 import { TrialDialog } from "@/features/landing/ui/TrialDialog";
 import { useCreateTrial } from "@/features/trial/hooks/useCreateTrial";
@@ -14,6 +15,8 @@ export function LandingHero() {
   const { loading, trial, error, startTrial } = useCreateTrial();
 
   const [dialogOpen, setDialogOpen] = useState(false);
+
+  const router = useRouter();
 
   async function handleCreateTrial() {
     try {
