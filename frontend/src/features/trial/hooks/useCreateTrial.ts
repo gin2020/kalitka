@@ -15,12 +15,14 @@ export function useCreateTrial() {
     try {
       const result = await createTrial();
       setTrial(result.trial);
+      return result.trial;
     } catch (err) {
       if (err instanceof Error) {
         setError(err.message);
       } else {
         setError("Не удалось создать VPN");
       }
+      throw err;
     } finally {
       setLoading(false);
     }

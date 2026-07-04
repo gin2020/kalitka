@@ -17,8 +17,14 @@ export function LandingHero() {
 
   async function handleCreateTrial() {
     try {
-      await startTrial();
-      setDialogOpen(true);
+      const trial = await startTrial();
+
+      localStorage.setItem(
+        "clientEmail",
+        trial.clientEmail
+      );
+
+      router.push("/my-vpn");
     } catch (err) {
       console.error(err);
       setDialogOpen(true);
