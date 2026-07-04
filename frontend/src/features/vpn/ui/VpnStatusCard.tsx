@@ -1,4 +1,6 @@
-import { Card } from "@/shared/ui";
+import { Card, Badge, ProgressBar } from "@/shared/ui";
+
+import styles from "./VpnStatusCard.module.css";
 
 type Props = {
   country: string;
@@ -9,33 +11,70 @@ type Props = {
 export function VpnStatusCard({
   country,
   protocol,
-  status,
 }: Props) {
   return (
-    <Card>
-      <h2>🟢 VPN активен</h2>
+    <Card className={styles.card}>
+      <div className={styles.header}>
+        <div className={styles.dot} />
 
-      <p>
-        <strong>🌍 Страна</strong>
-      </p>
+        <div>
+          <h2 className={styles.title}>
+            VPN активен
+          </h2>
 
-      <p>{country}</p>
+          <p className={styles.subtitle}>
+            Соединение защищено
+          </p>
+        </div>
+      </div>
 
-      <br />
+      <div className={styles.divider} />
 
-      <p>
-        <strong>🔒 Протокол</strong>
-      </p>
+      <div className={styles.row}>
+        <div className={styles.icon}>🇩🇪</div>
 
-      <p>{protocol}</p>
+        <div>
+          <div className={styles.value}>
+            {country}
+          </div>
 
-      <br />
+          <div className={styles.label}>
+            Страна
+          </div>
+        </div>
+      </div>
 
-      <p>
-        <strong>Статус</strong>
-      </p>
+      <div className={styles.row}>
+        <div className={styles.icon}>🔒</div>
 
-      <p>{status}</p>
+        <div>
+          <div className={styles.value}>
+            {protocol}
+          </div>
+
+          <div className={styles.label}>
+            Протокол
+          </div>
+        </div>
+      </div>
+
+      <div className={styles.divider} />
+
+      <div className={styles.traffic}>
+        Использовано трафика
+      </div>
+
+      <ProgressBar
+        value={0}
+        max={1024}
+        valueLabel="0 МБ / 1 ГБ"
+      />
+
+      <div className={styles.badge}>
+        <Badge>
+          🎁 1 ГБ бесплатно
+        </Badge>
+      </div>
     </Card>
   );
 }
