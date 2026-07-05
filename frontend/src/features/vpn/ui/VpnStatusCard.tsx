@@ -52,13 +52,13 @@ export function VpnStatusCard({
               </div>
 
               <h2 className={styles.title}>
-                Защищенное соединение
+                VPN подписка готова
               </h2>
             </div>
           </div>
 
           <p className={styles.subtitle}>
-            VPN подключен, трафик шифруется и проходит через выбранный сервер.
+            Доступ создан. Можно подключаться и пользоваться VPN.
           </p>
 
           <div className={styles.info}>
@@ -93,16 +93,6 @@ export function VpnStatusCard({
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-
-        <div className={styles.right}>
-          <div className={styles.glow} />
-
-          <div className={styles.shield} aria-hidden="true">
-            <span className={styles.shieldMark}>
-              ✓
-            </span>
           </div>
         </div>
       </div>
