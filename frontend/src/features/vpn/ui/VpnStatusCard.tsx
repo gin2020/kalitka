@@ -1,4 +1,4 @@
-import { Card } from "@/shared/ui";
+import { Card } from "@/shared/ui/Card/Card";
 import { ProgressBar } from "@/shared/ui/ProgressBar/ProgressBar";
 
 import styles from "./VpnStatusCard.module.css";
@@ -11,6 +11,14 @@ type Props = {
   trafficLimit: number;
 };
 
+function formatMb(bytes: number) {
+  return Math.round(bytes / 1024 / 1024);
+}
+
+function formatGb(bytes: number) {
+  return Math.round(bytes / 1024 / 1024 / 1024);
+}
+
 export function VpnStatusCard({
   country,
   protocol,
@@ -18,71 +26,92 @@ export function VpnStatusCard({
   trafficLimit,
 }: Props) {
   return (
-    <Card className={styles.card} padding="spacious">
-      <div className={styles.top}>
+    <Card
+      className={styles.card}
+      padding="spacious"
+    >
+      <div className={styles.hero}>
         <div className={styles.left}>
           <div className={styles.status}>
-            <span className={styles.statusIcon}>
-              🟢
-            </span>
+            <div className={styles.onlineDot} />
 
             <div>
-              <h2 className={styles.statusTitle}>
+              <h2 className={styles.title}>
                 VPN активен
               </h2>
 
-              <div className={styles.statusSubtitle}>
+              <p className={styles.subtitle}>
                 Соединение защищено
-              </div>
+              </p>
             </div>
           </div>
 
-          <div className={styles.divider} />
+          <div className={styles.separator} />
 
-          <div className={styles.info}>
-            <div>
-              <div className={styles.rowTitle}>
-                🌍 Страна
+          <div className={styles.infoBlock}>
+            <div className={styles.infoRow}>
+              <div className={styles.icon}>
+                🇩🇪
               </div>
 
-              <div className={styles.rowValue}>
-                {country}
+              <div>
+                <div className={styles.value}>
+                  {country}
+                </div>
+
+                <div className={styles.label}>
+                  Страна
+                </div>
               </div>
             </div>
 
-            <div>
-              <div className={styles.rowTitle}>
-                🔒 Протокол
+            <div className={styles.infoRow}>
+              <div className={styles.icon}>
+                🔒
               </div>
 
-              <div className={styles.rowValue}>
-                {protocol}
+              <div>
+                <div className={styles.value}>
+                  {protocol}
+                </div>
+
+                <div className={styles.label}>
+                  Протокол
+                </div>
               </div>
             </div>
           </div>
         </div>
 
-        <div className={styles.shield}>
-          🛡️
+        <div className={styles.right}>
+          <div className={styles.glow} />
+
+          <div className={styles.shield}>
+            🛡️
+          </div>
         </div>
       </div>
 
-      <div className={styles.divider} />
+      <div className={styles.separator} />
 
-      <div>
-        <div className={styles.trafficTitle}>
+      <div className={styles.traffic}>
+        <h3 className={styles.trafficTitle}>
           Использовано трафика
-        </div>
+        </h3>
 
         <ProgressBar
           value={trafficUsed}
           max={trafficLimit}
         />
 
-        <div className={styles.trafficFooter}>
-          <span>{Math.round(trafficUsed / 1024 / 1024)} МБ</span>
+        <div className={styles.trafficNumbers}>
+          <span>
+            {formatMb(trafficUsed)} МБ
+          </span>
 
-          <span>{Math.round(trafficLimit / 1024 / 1024 / 1024)} ГБ</span>
+          <span>
+            из {formatGb(trafficLimit)} ГБ
+          </span>
         </div>
 
         <div className={styles.badge}>
