@@ -82,7 +82,7 @@ export function VpnStatusCard({
         <div className={styles.trafficFooter}>
           <span>{Math.round(trafficUsed / 1024 / 1024)} МБ</span>
 
-          <span>Math.round(trafficLimit / 1024 / 1024 / 1024)} ГБ</span>
+          <span>{Math.round(trafficLimit / 1024 / 1024 / 1024)} ГБ</span>
         </div>
 
         <div className={styles.badge}>
