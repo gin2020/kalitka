@@ -1,5 +1,4 @@
-import { Card } from "@/shared/ui/Card/Card";
-import { ProgressBar } from "@/shared/ui/ProgressBar/ProgressBar";
+import { Card, ProgressBar } from "@/shared/ui";
 
 import styles from "./VpnStatusCard.module.css";
 
@@ -11,20 +10,30 @@ type Props = {
   trafficLimit: number;
 };
 
-function formatMb(bytes: number) {
-  return Math.round(bytes / 1024 / 1024);
-}
+function formatTraffic(value: number) {
+  if (value >= 1024) {
+    return `${(value / 1024).toFixed(1)} ГБ`;
+  }
 
-function formatGb(bytes: number) {
-  return Math.round(bytes / 1024 / 1024 / 1024);
+  return `${Math.round(value)} МБ`;
 }
 
 export function VpnStatusCard({
   country,
   protocol,
+  status,
   trafficUsed,
   trafficLimit,
 }: Props) {
+  const percent =
+    trafficLimit === 0
+      ? 0
+      : Math.min((trafficUsed / trafficLimit) * 100, 100);
+
+  const remainingTraffic = Math.max(trafficLimit - trafficUsed, 0);
+  const statusLabel =
+    status.trim().length > 0 ? status : "Активен";
+
   return (
     <Card
       className={styles.card}
@@ -33,25 +42,29 @@ export function VpnStatusCard({
       <div className={styles.hero}>
         <div className={styles.left}>
           <div className={styles.status}>
-            <div className={styles.onlineDot} />
+            <span className={styles.dot} />
 
             <div>
-              <h2 className={styles.title}>
-                VPN активен
-              </h2>
+              <div className={styles.eyebrow}>
+                <span className={styles.statusPill}>
+                  {statusLabel}
+                </span>
+              </div>
 
-              <p className={styles.subtitle}>
-                Соединение защищено
-              </p>
+              <h2 className={styles.title}>
+                Защищенное соединение
+              </h2>
             </div>
           </div>
 
-          <div className={styles.separator} />
+          <p className={styles.subtitle}>
+            VPN подключен, трафик шифруется и проходит через выбранный сервер.
+          </p>
 
-          <div className={styles.infoBlock}>
-            <div className={styles.infoRow}>
+          <div className={styles.info}>
+            <div className={styles.row}>
               <div className={styles.icon}>
-                🇩🇪
+                🌍
               </div>
 
               <div>
@@ -65,9 +78,9 @@ export function VpnStatusCard({
               </div>
             </div>
 
-            <div className={styles.infoRow}>
+            <div className={styles.row}>
               <div className={styles.icon}>
-                🔒
+                ⚿
               </div>
 
               <div>
@@ -86,8 +99,10 @@ export function VpnStatusCard({
         <div className={styles.right}>
           <div className={styles.glow} />
 
-          <div className={styles.shield}>
-            🛡️
+          <div className={styles.shield} aria-hidden="true">
+            <span className={styles.shieldMark}>
+              ✓
+            </span>
           </div>
         </div>
       </div>
@@ -95,22 +110,33 @@ export function VpnStatusCard({
       <div className={styles.separator} />
 
       <div className={styles.traffic}>
-        <h3 className={styles.trafficTitle}>
-          Использовано трафика
-        </h3>
+        <div className={styles.trafficHeader}>
+          <div>
+            <h3 className={styles.trafficTitle}>
+              Трафик
+            </h3>
+
+            <p className={styles.trafficSubtitle}>
+              Осталось {formatTraffic(remainingTraffic)}
+            </p>
+          </div>
+
+          <div className={styles.percent}>
+            {Math.round(percent)}%
+          </div>
+        </div>
 
         <ProgressBar
-          value={trafficUsed}
-          max={trafficLimit}
+          value={percent}
         />
 
-        <div className={styles.trafficNumbers}>
+        <div className={styles.numbers}>
           <span>
-            {formatMb(trafficUsed)} МБ
+            {formatTraffic(trafficUsed)}
           </span>
 
           <span>
-            из {formatGb(trafficLimit)} ГБ
+            из {formatTraffic(trafficLimit)}
           </span>
         </div>
 
