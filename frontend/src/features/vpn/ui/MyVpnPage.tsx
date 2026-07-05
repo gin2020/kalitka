@@ -58,6 +58,8 @@ export function MyVpnPage() {
         country={vpn.country}
         protocol={vpn.protocol}
         status={vpn.status}
+        trafficUsed={vpn.trafficUsed}
+        trafficLimit={vpn.trafficLimit}
       />
       <TrafficCard />
 

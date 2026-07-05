@@ -1,80 +1,45 @@
-import { Card, Badge, ProgressBar } from "@/shared/ui";
+import { Card } from "@/shared/ui";
 
-import styles from "./VpnStatusCard.module.css";
+import { VpnInfo } from "./VpnInfo";
+import { VpnShield } from "./VpnShield";
+import { VpnTraffic } from "./VpnTraffic";
 
 type Props = {
   country: string;
   protocol: string;
   status: string;
+  trafficUsed?: number;
+  trafficLimit?: number;
 };
 
 export function VpnStatusCard({
   country,
   protocol,
+  trafficUsed = 0,
+  trafficLimit = 1024 * 1024 * 1024,
 }: Props) {
   return (
-    <Card className={styles.card}>
-      <div className={styles.header}>
-        <div className={styles.dot} />
+    <Card padding="spacious">
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "1fr 180px",
+          gap: 24,
+          alignItems: "center",
+        }}
+      >
+        <VpnInfo
+          country={country}
+          protocol={protocol}
+        />
 
-        <div>
-          <h2 className={styles.title}>
-            VPN активен
-          </h2>
-
-          <p className={styles.subtitle}>
-            Соединение защищено
-          </p>
-        </div>
+        <VpnShield />
       </div>
 
-      <div className={styles.divider} />
-
-      <div className={styles.row}>
-        <div className={styles.icon}>🇩🇪</div>
-
-        <div>
-          <div className={styles.value}>
-            {country}
-          </div>
-
-          <div className={styles.label}>
-            Страна
-          </div>
-        </div>
-      </div>
-
-      <div className={styles.row}>
-        <div className={styles.icon}>🔒</div>
-
-        <div>
-          <div className={styles.value}>
-            {protocol}
-          </div>
-
-          <div className={styles.label}>
-            Протокол
-          </div>
-        </div>
-      </div>
-
-      <div className={styles.divider} />
-
-      <div className={styles.traffic}>
-        Использовано трафика
-      </div>
-
-      <ProgressBar
-        value={0}
-        max={1024}
-        valueLabel="0 МБ / 1 ГБ"
+      <VpnTraffic
+        used={trafficUsed}
+        limit={trafficLimit}
       />
-
-      <div className={styles.badge}>
-        <Badge>
-          🎁 1 ГБ бесплатно
-        </Badge>
-      </div>
     </Card>
   );
 }
