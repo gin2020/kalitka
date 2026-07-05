@@ -7,11 +7,15 @@ type Props = {
   country: string;
   protocol: string;
   status: string;
+  trafficUsed: number;
+  trafficLimit: number;
 };
 
 export function VpnStatusCard({
   country,
   protocol,
+  trafficUsed,
+  trafficLimit,
 }: Props) {
   return (
     <Card className={styles.card} padding="spacious">
@@ -71,14 +75,14 @@ export function VpnStatusCard({
         </div>
 
         <ProgressBar
-          value={0}
-          max={1024}
+          value={trafficUsed}
+          max={trafficLimit}
         />
 
         <div className={styles.trafficFooter}>
-          <span>0 МБ</span>
+          <span>{Math.round(trafficUsed / 1024 / 1024)} МБ</span>
 
-          <span>из 1 ГБ</span>
+          <span>Math.round(trafficLimit / 1024 / 1024 / 1024)} ГБ</span>
         </div>
 
         <div className={styles.badge}>
