@@ -61,7 +61,7 @@ export function MyVpnPage() {
         trafficUsed={vpn.trafficUsed}
         trafficLimit={vpn.trafficLimit}
       />
-      <TrafficCard />
+      <TrafficCard subscriptionUrl={vpn.subscriptionUrl} />
 
       <ActionsCard />
 
