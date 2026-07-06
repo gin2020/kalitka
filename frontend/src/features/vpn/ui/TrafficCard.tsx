@@ -7,7 +7,6 @@ import { Card, Toast } from "@/shared/ui";
 import styles from "./TrafficCard.module.css";
 
 type Props = {
-  configUrl?: string;
   subscriptionUrl: string;
 };
 
@@ -29,14 +28,9 @@ async function copyText(value: string) {
   textarea.remove();
 }
 
-export function TrafficCard({
-  configUrl,
-  subscriptionUrl,
-}: Props) {
+export function TrafficCard({ subscriptionUrl }: Props) {
   const [toastMessage, setToastMessage] = useState("");
   const [toastOpen, setToastOpen] = useState(false);
-
-  const configurationUrl = configUrl ?? subscriptionUrl;
 
   async function handleCopy(value: string, message: string) {
     try {
@@ -78,27 +72,7 @@ export function TrafficCard({
               </span>
 
               <span className={styles.link}>
-                {subscriptionUrl}
-              </span>
-            </span>
-          </button>
-
-          <button
-            className={styles.action}
-            type="button"
-            onClick={() =>
-              handleCopy(configurationUrl, "Конфигурация скопирована")
-            }
-          >
-            <span className={styles.icon}>⚙</span>
-
-            <span className={styles.content}>
-              <span className={styles.actionTitle}>
-                Скопировать конфигурацию
-              </span>
-
-              <span className={styles.link}>
-                {configurationUrl}
+                скопировать конфигурацию
               </span>
             </span>
           </button>
