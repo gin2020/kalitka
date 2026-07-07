@@ -3,8 +3,6 @@ import { Card, ProgressBar } from "@/shared/ui";
 import styles from "./VpnStatusCard.module.css";
 
 type Props = {
-  country: string;
-  protocol: string;
   status: string;
   trafficUsed: number;
   trafficLimit: number;
@@ -19,8 +17,6 @@ function formatTraffic(value: number) {
 }
 
 export function VpnStatusCard({
-  country,
-  protocol,
   status,
   trafficUsed,
   trafficLimit,
@@ -60,40 +56,6 @@ export function VpnStatusCard({
           <p className={styles.subtitle}>
             Доступ создан. Можно подключаться и пользоваться VPN.
           </p>
-
-          <div className={styles.info}>
-            <div className={styles.row}>
-              <div className={styles.icon}>
-                🌍
-              </div>
-
-              <div>
-                <div className={styles.value}>
-                  {country}
-                </div>
-
-                <div className={styles.label}>
-                  Страна
-                </div>
-              </div>
-            </div>
-
-            <div className={styles.row}>
-              <div className={styles.icon}>
-                ⚿
-              </div>
-
-              <div>
-                <div className={styles.value}>
-                  {protocol}
-                </div>
-
-                <div className={styles.label}>
-                  Протокол
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
 

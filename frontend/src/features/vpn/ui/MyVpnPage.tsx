@@ -55,8 +55,6 @@ export function MyVpnPage() {
     <>
       <MyVpnHeader />
       <VpnStatusCard
-        country={vpn.country}
-        protocol={vpn.protocol}
         status={vpn.status}
         trafficUsed={vpn.trafficUsed}
         trafficLimit={vpn.trafficLimit}
