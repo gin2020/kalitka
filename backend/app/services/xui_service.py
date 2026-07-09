@@ -57,5 +57,26 @@ class XUIService:
             "traffic_limit": TRIAL_TRAFFIC_BYTES,
         }
 
+    async def get_client_traffic(
+        self,
+        email: str,
+    ) -> dict[str, int | bool | str]:
+        result = await xui_client.get_client(email)
+        client = result["obj"]
+
+        upload = int(client.get("up") or 0)
+        download = int(client.get("down") or 0)
+        total = int(client.get("total") or 0)
+        used = upload + download
+
+        return {
+            "traffic_used": used,
+            "traffic_limit": total,
+            "enable": bool(client.get("enable", True)),
+            "status": "active"
+            if client.get("enable", True)
+            else "disabled",
+        }
+
 
 xui_service = XUIService()

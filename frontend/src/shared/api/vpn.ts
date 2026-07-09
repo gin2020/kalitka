@@ -15,6 +15,9 @@ export type MyVpnResponse = {
 
 export function getMyVpn() {
   return apiFetch<MyVpnResponse>(
-    "/subscription/me"
+    "/subscription/me",
+    {
+      cache: "no-store",
+    }
   );
 }

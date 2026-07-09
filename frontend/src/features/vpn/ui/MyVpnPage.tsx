@@ -17,6 +17,9 @@ import {
 
 import { VpnStatusCard } from "./VpnStatusCard";
 import { MyVpnHeader } from "./MyVpnHeader";
+
+const TRAFFIC_REFRESH_INTERVAL_MS = 30_000;
+
 export function MyVpnPage() {
   const [vpn, setVpn] =
     useState<MyVpnResponse | null>(null);
@@ -27,9 +30,15 @@ export function MyVpnPage() {
   const router = useRouter();
 
   useEffect(() => {
+    let ignore = false;
+
     async function load() {
       try {
         const data = await getMyVpn();
+
+        if (ignore) {
+          return;
+        }
 
         setVpn(data);
       } catch {
@@ -37,11 +46,23 @@ export function MyVpnPage() {
 
         router.replace("/");
       } finally {
-        setLoading(false);
+        if (!ignore) {
+          setLoading(false);
+        }
       }
     }
 
     load();
+
+    const intervalId = window.setInterval(
+      load,
+      TRAFFIC_REFRESH_INTERVAL_MS
+    );
+
+    return () => {
+      ignore = true;
+      window.clearInterval(intervalId);
+    };
   }, [router]);
 
   if (loading) {

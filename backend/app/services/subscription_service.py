@@ -4,6 +4,7 @@ from app.repositories.subscription_repository import (
     SubscriptionRepository,
 )
 from app.schemas.subscription import SubscriptionCreate
+from app.services.xui_service import xui_service
 
 
 class SubscriptionService:
@@ -49,6 +50,33 @@ class SubscriptionService:
         token: str,
     ) -> Subscription | None:
         return await self.repository.get_by_token(token)
+
+    async def get_by_token_with_actual_traffic(
+        self,
+        token: str,
+    ) -> Subscription | None:
+        subscription = await self.repository.get_by_token(token)
+
+        if not subscription:
+            return None
+
+        try:
+            traffic = await xui_service.get_client_traffic(
+                subscription.client_email
+            )
+        except Exception:
+            return subscription
+
+        traffic_limit = int(traffic["traffic_limit"])
+
+        return await self.repository.update(
+            subscription,
+            traffic_used=int(traffic["traffic_used"]),
+            traffic_limit=traffic_limit
+            if traffic_limit > 0
+            else subscription.traffic_limit,
+            status=str(traffic["status"]),
+        )
 
     async def list(self) -> list[Subscription]:
         return await self.repository.list()

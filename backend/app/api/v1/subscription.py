@@ -31,8 +31,10 @@ async def get_my_subscription(
             detail="Subscription not found",
         )
 
-    subscription = await subscription_service.get_by_token(
-        token
+    subscription = (
+        await subscription_service.get_by_token_with_actual_traffic(
+            token
+        )
     )
 
     if not subscription:

@@ -8,12 +8,15 @@ type Props = {
   trafficLimit: number;
 };
 
-function formatTraffic(value: number) {
-  if (value >= 1024) {
-    return `${(value / 1024).toFixed(1)} ГБ`;
+const BYTES_IN_MB = 1024 * 1024;
+const BYTES_IN_GB = 1024 * BYTES_IN_MB;
+
+function formatTraffic(bytes: number) {
+  if (bytes >= BYTES_IN_GB) {
+    return `${(bytes / BYTES_IN_GB).toFixed(1)} ГБ`;
   }
 
-  return `${Math.round(value)} МБ`;
+  return `${Math.round(bytes / BYTES_IN_MB)} МБ`;
 }
 
 export function VpnStatusCard({
@@ -27,6 +30,10 @@ export function VpnStatusCard({
       : Math.min((trafficUsed / trafficLimit) * 100, 100);
 
   const remainingTraffic = Math.max(trafficLimit - trafficUsed, 0);
+  const remainingPercent =
+    trafficLimit === 0
+      ? 0
+      : Math.max(100 - percent, 0);
   const statusLabel =
     status.trim().length > 0 ? status : "Активен";
 
@@ -69,7 +76,8 @@ export function VpnStatusCard({
             </h3>
 
             <p className={styles.trafficSubtitle}>
-              Осталось {formatTraffic(remainingTraffic)}
+              Осталось {formatTraffic(remainingTraffic)} (
+              {Math.round(remainingPercent)}%)
             </p>
           </div>
 
@@ -84,7 +92,7 @@ export function VpnStatusCard({
 
         <div className={styles.numbers}>
           <span>
-            {formatTraffic(trafficUsed)}
+            Использовано {formatTraffic(trafficUsed)}
           </span>
 
           <span>
