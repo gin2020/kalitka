@@ -5,7 +5,8 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import { TrafficCard } from "./TrafficCard";
-import { InstructionCard } from "./InstructionCard";
+import { AndroidCard } from "./AndroidCard";
+import { IOSCard } from "./iOSCard";
 import { PurchaseCard } from "./PurchaseCard";
 import { SupportCard } from "./SupportCard";
 
@@ -61,7 +62,9 @@ export function MyVpnPage() {
       />
       <TrafficCard subscriptionUrl={vpn.subscriptionUrl} />
 
-      <InstructionCard />
+      <IOSCard />
+
+      <AndroidCard />
 
       <PurchaseCard />
 
