@@ -6,6 +6,35 @@ from app.integrations.xui.client import xui_client
 TRIAL_TRAFFIC_BYTES = 1024 * 1024 * 1024
 
 
+def _to_int(value: object) -> int:
+    if value is None:
+        return 0
+
+    try:
+        return int(value)
+    except (TypeError, ValueError):
+        return 0
+
+
+def normalize_client_traffic(client: dict) -> dict[str, int | bool | str]:
+    upload = _to_int(client.get("up"))
+    download = _to_int(client.get("down"))
+    total = _to_int(client.get("total"))
+
+    if total == 0:
+        total = _to_int(client.get("totalGB"))
+
+    used = upload + download
+    enabled = bool(client.get("enable", True))
+
+    return {
+        "traffic_used": used,
+        "traffic_limit": total,
+        "enable": enabled,
+        "status": "active" if enabled else "disabled",
+    }
+
+
 class XUIService:
     @staticmethod
     def generate_client_email() -> str:
@@ -62,21 +91,7 @@ class XUIService:
         email: str,
     ) -> dict[str, int | bool | str]:
         result = await xui_client.get_client(email)
-        client = result["obj"]
-
-        upload = int(client.get("up") or 0)
-        download = int(client.get("down") or 0)
-        total = int(client.get("total") or 0)
-        used = upload + download
-
-        return {
-            "traffic_used": used,
-            "traffic_limit": total,
-            "enable": bool(client.get("enable", True)),
-            "status": "active"
-            if client.get("enable", True)
-            else "disabled",
-        }
+        return normalize_client_traffic(result["obj"])
 
 
 xui_service = XUIService()

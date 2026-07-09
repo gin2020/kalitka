@@ -12,6 +12,10 @@ const BYTES_IN_MB = 1024 * 1024;
 const BYTES_IN_GB = 1024 * BYTES_IN_MB;
 
 function formatTraffic(bytes: number) {
+  if (!Number.isFinite(bytes) || bytes <= 0) {
+    return "0 МБ";
+  }
+
   if (bytes >= BYTES_IN_GB) {
     return `${(bytes / BYTES_IN_GB).toFixed(1)} ГБ`;
   }
@@ -24,7 +28,7 @@ export function VpnStatusCard({
   trafficUsed,
   trafficLimit,
 }: Props) {
-  const percent =
+  const usagePercent =
     trafficLimit === 0
       ? 0
       : Math.min((trafficUsed / trafficLimit) * 100, 100);
@@ -33,7 +37,7 @@ export function VpnStatusCard({
   const remainingPercent =
     trafficLimit === 0
       ? 0
-      : Math.max(100 - percent, 0);
+      : Math.max(100 - usagePercent, 0);
   const statusLabel =
     status.trim().length > 0 ? status : "Активен";
 
@@ -82,22 +86,34 @@ export function VpnStatusCard({
           </div>
 
           <div className={styles.percent}>
-            {Math.round(percent)}%
+            {Math.round(usagePercent)}%
           </div>
         </div>
 
         <ProgressBar
-          value={percent}
+          value={usagePercent}
         />
 
-        <div className={styles.numbers}>
-          <span>
-            Использовано {formatTraffic(trafficUsed)}
-          </span>
+        <div className={styles.trafficStats}>
+          <div className={styles.stat}>
+            <span className={styles.statLabel}>Лимит</span>
+            <strong>{formatTraffic(trafficLimit)}</strong>
+          </div>
 
-          <span>
-            из {formatTraffic(trafficLimit)}
-          </span>
+          <div className={styles.stat}>
+            <span className={styles.statLabel}>Использовано</span>
+            <strong>{formatTraffic(trafficUsed)}</strong>
+          </div>
+
+          <div className={styles.stat}>
+            <span className={styles.statLabel}>Осталось</span>
+            <strong>{formatTraffic(remainingTraffic)}</strong>
+          </div>
+
+          <div className={styles.stat}>
+            <span className={styles.statLabel}>Использование</span>
+            <strong>{Math.round(usagePercent)}%</strong>
+          </div>
         </div>
 
         <div className={styles.badge}>
