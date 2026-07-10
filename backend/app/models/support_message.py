@@ -1,6 +1,6 @@
 from uuid import UUID
 
-from sqlalchemy import ForeignKey, String, Text
+from sqlalchemy import BigInteger, ForeignKey, String, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.db.models import BaseModel
@@ -22,6 +22,11 @@ class SupportMessage(BaseModel):
 
     text: Mapped[str] = mapped_column(
         Text,
+    )
+
+    telegram_message_id: Mapped[int | None] = mapped_column(
+        BigInteger,
+        nullable=True,
     )
 
     conversation = relationship(

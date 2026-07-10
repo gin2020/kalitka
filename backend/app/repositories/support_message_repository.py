@@ -23,6 +23,25 @@ class SupportMessageRepository:
 
         return message
 
+    async def save(
+        self,
+        message: SupportMessage,
+    ) -> SupportMessage:
+        await self.db.commit()
+        await self.db.refresh(message)
+
+        return message
+
+    async def update(
+        self,
+        message: SupportMessage,
+        **kwargs,
+    ) -> SupportMessage:
+        for key, value in kwargs.items():
+            setattr(message, key, value)
+
+        return await self.save(message)
+
     async def get_by_id(
         self,
         message_id: UUID,
@@ -30,6 +49,19 @@ class SupportMessageRepository:
         result = await self.db.execute(
             select(SupportMessage).where(
                 SupportMessage.id == message_id
+            )
+        )
+
+        return result.scalar_one_or_none()
+
+    async def get_by_telegram_message_id(
+        self,
+        telegram_message_id: int,
+    ) -> SupportMessage | None:
+        result = await self.db.execute(
+            select(SupportMessage).where(
+                SupportMessage.telegram_message_id
+                == telegram_message_id
             )
         )
 

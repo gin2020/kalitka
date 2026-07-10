@@ -1,5 +1,8 @@
 from uuid import UUID
 
+from app.integrations.telegram.support import (
+    notify_new_message,
+)
 from app.models.support_conversation import SupportConversation
 from app.models.support_message import SupportMessage
 from app.repositories.support_conversation_repository import (
@@ -47,11 +50,24 @@ class SupportService:
             subscription_id
         )
 
-        return await self.message_repository.create(
+        message = await self.message_repository.create(
             conversation_id=conversation.id,
             sender=sender,
             text=text,
         )
+
+        if sender == "client":
+            telegram_message =  await notify_new_message(
+                conversation_id=str(conversation.id),
+                text=text,
+            )
+
+            await self.message_repository.update(
+                message,
+                telegram_message_id=telegram_message.message_id,
+            )
+
+        return message
 
     async def get_messages(
         self,
