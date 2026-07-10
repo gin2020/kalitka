@@ -7,6 +7,7 @@ from app.api.v1.trial import router as trial_router
 from app.api.v1.subscription import router as subscription_router
 from app.api.v1.support import router as support_router
 from app.api.v1.support_ws import router as support_ws_router
+from app.api.v1.telegram import router as telegram_router
 from app.core.config import settings
 
 
@@ -29,6 +30,7 @@ app.include_router(health_router, prefix="/api/v1")
 app.include_router(trial_router, prefix="/api/v1")
 app.include_router(subscription_router, prefix="/api/v1")
 app.include_router(support_router, prefix="/api/v1")
+app.include_router(telegram_router, prefix="/api/v1")
 app.include_router(support_ws_router)
 
 @app.get("/")

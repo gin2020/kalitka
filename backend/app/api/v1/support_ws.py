@@ -66,20 +66,10 @@ async def support_websocket(
         while True:
             text = await websocket.receive_text()
 
-            message = await support_service.send_message(
+            await support_service.send_message(
                 subscription.id,
                 sender="client",
                 text=text,
-            )
-
-            await manager.send_to_conversation(
-                conversation.id,
-                {
-                    "id": str(message.id),
-                    "sender": message.sender,
-                    "text": message.text,
-                    "createdAt": message.created_at.isoformat(),
-                },
             )
 
     except WebSocketDisconnect:
