@@ -18,6 +18,10 @@ from app.services.support_service import (
     SupportService,
 )
 
+from app.services.websocket_manager import (
+    manager,
+)
+
 COOKIE_NAME = "kalitka_trial"
 
 router = APIRouter()
@@ -33,29 +37,32 @@ async def support_websocket(
         get_support_service,
     ),
 ):
-    await websocket.accept()
+    token = websocket.cookies.get(COOKIE_NAME)
 
-    try:
-        token = websocket.cookies.get(COOKIE_NAME)
+    if not token:
+        await websocket.close(code=1008)
+        return
 
-        if not token:
-            await websocket.close(code=1008)
-            return
+    subscription = await subscription_service.get_by_token(
+        token
+    )
 
-        subscription = (
-            await subscription_service.get_by_token(
-                token
-            )
-        )
+    if not subscription:
+        await websocket.close(code=1008)
+        return
 
-        if not subscription:
-            await websocket.close(code=1008)
-            return
-
+    conversation = (
         await support_service.get_or_create_conversation(
             subscription.id,
         )
+    )
 
+    await manager.connect(
+        conversation.id,
+        websocket,
+    )
+
+    try:
         while True:
             text = await websocket.receive_text()
 
@@ -65,16 +72,18 @@ async def support_websocket(
                 text=text,
             )
 
-            await websocket.send_json(
+            await manager.send_to_conversation(
+                conversation.id,
                 {
                     "id": str(message.id),
                     "sender": message.sender,
                     "text": message.text,
-                    "createdAt": (
-                        message.created_at.isoformat()
-                    ),
-                }
+                    "createdAt": message.created_at.isoformat(),
+                },
             )
 
     except WebSocketDisconnect:
-        pass
+        manager.disconnect(
+            conversation.id,
+            websocket,
+        )
