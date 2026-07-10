@@ -5,6 +5,7 @@ from app.api.v1.users import router as users_router
 from app.api.v1.health import router as health_router
 from app.api.v1.trial import router as trial_router
 from app.api.v1.subscription import router as subscription_router
+from app.api.v1.support import router as support_router
 from app.core.config import settings
 
 
@@ -26,6 +27,7 @@ app.include_router(users_router, prefix="/api/v1")
 app.include_router(health_router, prefix="/api/v1")
 app.include_router(trial_router, prefix="/api/v1")
 app.include_router(subscription_router, prefix="/api/v1")
+app.include_router(support_router, prefix="/api/v1")
 
 @app.get("/")
 async def root():

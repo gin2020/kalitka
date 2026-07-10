@@ -2,7 +2,7 @@ from datetime import datetime
 from uuid import UUID
 
 from sqlalchemy import BigInteger, DateTime, ForeignKey, String
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.db.models import BaseModel
 
@@ -61,4 +61,10 @@ class Subscription(BaseModel):
     expires_at: Mapped[datetime | None] = mapped_column(
         DateTime(timezone=True),
         nullable=True,
+    )
+
+    conversation = relationship(
+    "SupportConversation",
+    back_populates="subscription",
+    uselist=False,
     )
