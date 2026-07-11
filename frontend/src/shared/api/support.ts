@@ -3,8 +3,12 @@ const API =
 
 export interface SupportMessage {
   id: string;
-  sender: "client" | "support";
+  sender: "client" | "operator" | "support";
   text: string;
+  messageType: "text" | "image";
+  imagePath: string | null;
+  imageUrl: string | null;
+  status: "sent" | "read";
   createdAt: string;
 }
 
