@@ -1,5 +1,8 @@
+from pathlib import Path
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
 from app.api.v1.users import router as users_router
 from app.api.v1.health import router as health_router
@@ -22,6 +25,13 @@ app.add_middleware(
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
+)
+
+Path("uploads/support").mkdir(parents=True, exist_ok=True)
+app.mount(
+    "/uploads",
+    StaticFiles(directory="uploads"),
+    name="uploads",
 )
 
 # Подключаем все роутеры ПОСЛЕ создания FastAPI

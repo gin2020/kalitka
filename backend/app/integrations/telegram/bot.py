@@ -16,3 +16,18 @@ async def send_message(
     )
 
     return message
+
+
+async def send_photo(
+    chat_id: int,
+    photo_path: str,
+    caption: str | None = None,
+) -> Message:
+    with open(photo_path, "rb") as photo:
+        message = await bot.send_photo(
+            chat_id=chat_id,
+            photo=photo,
+            caption=caption,
+        )
+
+    return message

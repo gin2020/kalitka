@@ -15,6 +15,12 @@ class SupportMessageRead(BaseModel):
 
     text: str
 
+    message_type: str = "text"
+
+    image_path: str | None = None
+
+    status: str = "sent"
+
     created_at: datetime
 
     class Config:

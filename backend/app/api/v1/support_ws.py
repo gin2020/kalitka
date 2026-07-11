@@ -1,3 +1,6 @@
+import json
+from uuid import UUID
+
 from fastapi import (
     APIRouter,
     Depends,
@@ -64,13 +67,53 @@ async def support_websocket(
 
     try:
         while True:
-            text = await websocket.receive_text()
+            raw_message = await websocket.receive_text()
 
-            await support_service.send_message(
-                subscription.id,
-                sender="client",
-                text=text,
-            )
+            try:
+                payload = json.loads(raw_message)
+            except json.JSONDecodeError:
+                payload = {
+                    "type": "message",
+                    "text": raw_message,
+                    "messageType": "text",
+                }
+
+            if payload.get("type") == "message_read":
+                message_id = payload.get("messageId")
+
+                if message_id:
+                    try:
+                        await support_service.mark_message_read(
+                            subscription.id,
+                            UUID(message_id),
+                        )
+                    except ValueError:
+                        await websocket.send_json(
+                            {
+                                "type": "error",
+                                "message": "Invalid message id",
+                            }
+                        )
+
+                continue
+
+            try:
+                await support_service.send_message(
+                    subscription.id,
+                    sender="client",
+                    text=str(payload.get("text", "")),
+                    message_type=str(
+                        payload.get("messageType", "text")
+                    ),
+                    image=payload.get("image"),
+                )
+            except ValueError as error:
+                await websocket.send_json(
+                    {
+                        "type": "error",
+                        "message": str(error),
+                    }
+                )
 
     except WebSocketDisconnect:
         manager.disconnect(

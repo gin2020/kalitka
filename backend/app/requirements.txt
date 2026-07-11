@@ -6,3 +6,4 @@ sqlalchemy
 psycopg[binary]
 alembic
 httpx
+python-telegram-bot

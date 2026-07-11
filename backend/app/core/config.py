@@ -4,6 +4,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 class Settings(BaseSettings):
     PROJECT_NAME: str = "Kalitka API"
     VERSION: str = "0.1.0"
+    PUBLIC_BASE_URL: str = "https://api.kalitka.jesarion.com"
 
     DATABASE_URL: str
 

@@ -51,12 +51,7 @@ async def get_messages(
     )
 
     return [
-        {
-            "id": str(message.id),
-            "sender": message.sender,
-            "text": message.text,
-            "createdAt": message.created_at,
-        }
+        support_service.serialize_message(message)
         for message in messages
     ]
 
@@ -95,9 +90,4 @@ async def send_message(
         text=payload.text,
     )
 
-    return {
-        "id": str(message.id),
-        "sender": message.sender,
-        "text": message.text,
-        "createdAt": message.created_at,
-    }
+    return support_service.serialize_message(message)

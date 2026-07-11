@@ -22,6 +22,22 @@ class SupportMessage(BaseModel):
 
     text: Mapped[str] = mapped_column(
         Text,
+        default="",
+    )
+
+    message_type: Mapped[str] = mapped_column(
+        String(16),
+        default="text",
+    )
+
+    image_path: Mapped[str | None] = mapped_column(
+        String(512),
+        nullable=True,
+    )
+
+    status: Mapped[str] = mapped_column(
+        String(16),
+        default="sent",
     )
 
     telegram_message_id: Mapped[int | None] = mapped_column(
