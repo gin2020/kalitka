@@ -1,7 +1,7 @@
 "use client";
 
 import { getMyVpn } from "@/shared/api/vpn";
-import { useEffect, useRef } from "react";
+import { useEffect, useState } from "react";
 
 import { useRouter } from "next/navigation";
 import { KalitkaLogo } from "@/components/brand/KalitkaLogo";
@@ -14,9 +14,10 @@ import styles from "./LandingHero.module.css";
 
 export function LandingHero() {
   const { loading, startTrial } = useCreateTrial();
+  const [hasActiveSubscription, setHasActiveSubscription] =
+    useState(false);
 
   const router = useRouter();
-  const didRedirectRef = useRef(false);
 
   useEffect(() => {
     let ignore = false;
@@ -25,13 +26,8 @@ export function LandingHero() {
       try {
         const vpn = await getMyVpn();
 
-        if (
-          vpn.active &&
-          !ignore &&
-          !didRedirectRef.current
-        ) {
-          didRedirectRef.current = true;
-          window.location.replace("/my-vpn");
+        if (!ignore) {
+          setHasActiveSubscription(vpn.active);
         }
       } catch {
         // Нет активной подписки — остаёмся на главной.
@@ -54,6 +50,10 @@ export function LandingHero() {
       console.error(err);
       alert("Не удалось создать VPN");
     }
+  }
+
+  function handleOpenMyVpn() {
+    router.push("/my-vpn");
   }
 
   return (
@@ -85,14 +85,20 @@ export function LandingHero() {
 
           <div className={styles.panel}>
             <PrimaryAction
-              onClick={handleCreateTrial}
-              disabled={loading}
+              onClick={
+                hasActiveSubscription
+                  ? handleOpenMyVpn
+                  : handleCreateTrial
+              }
+              disabled={!hasActiveSubscription && loading}
             >
-              {loading ? (
+              {!hasActiveSubscription && loading ? (
                 <>
                   <Spinner />
                   Создаем VPN...
                 </>
+              ) : hasActiveSubscription ? (
+                "Открыть мой VPN"
               ) : (
                 "Начать пользоваться"
               )}
