@@ -11,7 +11,6 @@ async def notify_new_message(
     image_path: str | None = None,
     client_email: str | None = None,
     subscription_token: str | None = None,
-    user_id: str | None = None,
     purchase_plan: str | None = None,
     purchase_price: str | None = None,
 ) -> Message:
@@ -33,8 +32,7 @@ async def notify_new_message(
         f"{caption}"
         f"Email: {client_email or 'не указан'}\n"
         f"Sub ID: {subscription_token or 'не указан'}\n"
-        f"Dialog ID: {conversation_id}\n"
-        f"User ID: {user_id or 'не указан'}"
+        f"Dialog ID: {conversation_id}"
     )
 
     if text:

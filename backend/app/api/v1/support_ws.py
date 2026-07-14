@@ -136,7 +136,6 @@ async def support_websocket(
                     subscription_token=(
                         subscription.subscription_token
                     ),
-                    user_id=subscription.user_id,
                     purchase_plan=purchase_plan,
                     purchase_price=purchase_price,
                 )

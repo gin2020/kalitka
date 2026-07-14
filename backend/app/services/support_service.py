@@ -69,7 +69,6 @@ class SupportService:
         image_path: str | None = None,
         client_email: str | None = None,
         subscription_token: str | None = None,
-        user_id: UUID | None = None,
         purchase_plan: str | None = None,
         purchase_price: str | None = None,
     ) -> SupportMessage:
@@ -114,7 +113,6 @@ class SupportService:
                     image_path=saved_image_path,
                     client_email=client_email,
                     subscription_token=subscription_token,
-                    user_id=str(user_id) if user_id else None,
                     purchase_plan=purchase_plan,
                     purchase_price=purchase_price,
                 )
