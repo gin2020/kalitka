@@ -67,6 +67,11 @@ class SupportService:
         message_type: str = "text",
         image: dict | None = None,
         image_path: str | None = None,
+        client_email: str | None = None,
+        subscription_token: str | None = None,
+        user_id: UUID | None = None,
+        purchase_plan: str | None = None,
+        purchase_price: str | None = None,
     ) -> SupportMessage:
         conversation = await self.get_or_create_conversation(
             subscription_id
@@ -107,6 +112,11 @@ class SupportService:
                     conversation_id=str(conversation.id),
                     text=normalized_text,
                     image_path=saved_image_path,
+                    client_email=client_email,
+                    subscription_token=subscription_token,
+                    user_id=str(user_id) if user_id else None,
+                    purchase_plan=purchase_plan,
+                    purchase_price=purchase_price,
                 )
 
                 message = await self.message_repository.update(

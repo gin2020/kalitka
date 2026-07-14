@@ -55,6 +55,26 @@ type SupportSocketMessage =
   | MessageStatusPayload
   | ErrorPayload;
 
+type SubscriptionPlan = {
+  label: string;
+  price: string;
+};
+
+const SUBSCRIPTION_PLANS: SubscriptionPlan[] = [
+  {
+    label: "30 ГБ",
+    price: "150 ₽",
+  },
+  {
+    label: "50 ГБ",
+    price: "300 ₽",
+  },
+  {
+    label: "Безлимит",
+    price: "500 ₽",
+  },
+];
+
 export function SupportCard() {
   const [messages, setMessages] =
     useState<SupportMessage[]>([]);
@@ -67,6 +87,7 @@ export function SupportCard() {
     useState(false);
   const [selectedImage, setSelectedImage] =
     useState<SelectedImage | null>(null);
+  const [plansOpen, setPlansOpen] = useState(false);
   const [error, setError] = useState<string | null>(
     null
   );
@@ -268,6 +289,41 @@ export function SupportCard() {
     }
   }
 
+  function sendSubscriptionPlan(plan: SubscriptionPlan) {
+    if (
+      sending ||
+      !connected ||
+      !socketRef.current ||
+      socketRef.current.readyState !== WebSocket.OPEN
+    ) {
+      return;
+    }
+
+    setSending(true);
+    setError(null);
+
+    try {
+      const messageText = `Хочу купить подписку: ${plan.label} — ${plan.price}`;
+
+      socketRef.current.send(
+        JSON.stringify({
+          type: "subscription_purchase",
+          text: messageText,
+          messageType: "text",
+          plan,
+        })
+      );
+
+      setPlansOpen(false);
+      setText("");
+    } catch (sendError) {
+      console.error(sendError);
+      setError("Не удалось отправить заявку");
+    } finally {
+      setSending(false);
+    }
+  }
+
   function handleKeyDown(
     event: KeyboardEvent<HTMLTextAreaElement>
   ) {
@@ -439,18 +495,35 @@ export function SupportCard() {
                           message.createdAt
                         )}
                       </time>
-                      <span
-                        className={styles.messageStatus}
-                      >
-                        {message.status === "read"
-                          ? "✓✓ Прочитано"
-                          : "✓ Отправлено"}
-                      </span>
                     </span>
                   </div>
                 </div>
               );
             })}
+
+            {plansOpen ? (
+              <div className={styles.planPanel}>
+                <div className={styles.planPanelTitle}>
+                  Выберите тариф
+                </div>
+                <div className={styles.planList}>
+                  {SUBSCRIPTION_PLANS.map((plan) => (
+                    <button
+                      className={styles.planButton}
+                      type="button"
+                      key={plan.label}
+                      onClick={() =>
+                        sendSubscriptionPlan(plan)
+                      }
+                      disabled={!connected || sending}
+                    >
+                      <span>{plan.label}</span>
+                      <strong>{plan.price}</strong>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            ) : null}
 
             <div ref={messagesEndRef} />
           </div>
@@ -482,6 +555,22 @@ export function SupportCard() {
               {error}
             </div>
           ) : null}
+
+          <div className={styles.quickActions}>
+            <button
+              className={styles.quickActionButton}
+              type="button"
+              onClick={() =>
+                setPlansOpen((value) => !value)
+              }
+              disabled={sending}
+            >
+              Купить подписку
+            </button>
+            <span className={styles.responseHint}>
+              Обычно отвечаем в течение минуты
+            </span>
+          </div>
 
           <div className={styles.composer}>
             <div className={styles.attachWrap}>

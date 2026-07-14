@@ -220,6 +220,55 @@
   line-height: 1;
 }
 
+.planPanel {
+  display: grid;
+  width: min(100%, 360px);
+  gap: 10px;
+  padding: 12px;
+
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  box-shadow: 0 10px 24px rgba(12, 22, 18, 0.06);
+}
+
+.planPanelTitle {
+  color: var(--foreground);
+
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+.planList {
+  display: grid;
+  gap: 8px;
+}
+
+.planButton {
+  display: flex;
+  min-height: 46px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 12px;
+
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--surface-muted);
+  color: var(--foreground);
+
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1.2;
+  text-align: left;
+}
+
+.planButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
 .preview {
   display: grid;
   grid-template-columns: 76px minmax(0, 1fr);
@@ -281,6 +330,47 @@
   font-size: 14px;
   font-weight: 700;
   line-height: 1.35;
+}
+
+.quickActions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px;
+
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--surface-muted);
+}
+
+.quickActionButton {
+  min-height: 40px;
+  padding: 0 14px;
+
+  border: 1px solid rgba(31, 138, 91, 0.24);
+  border-radius: var(--radius-sm);
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.quickActionButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.responseHint {
+  color: var(--muted);
+
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.25;
+  text-align: right;
 }
 
 .composer {
@@ -426,6 +516,19 @@
 
   .composer {
     grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .quickActions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .quickActionButton {
+    width: 100%;
+  }
+
+  .responseHint {
+    text-align: center;
   }
 
   .sendButton {

@@ -26,6 +26,11 @@ from app.services.websocket_manager import (
 )
 
 COOKIE_NAME = "kalitka_trial"
+SUBSCRIPTION_PURCHASE_PLANS = {
+    "30 ГБ": "150 ₽",
+    "50 ГБ": "300 ₽",
+    "Безлимит": "500 ₽",
+}
 
 router = APIRouter()
 
@@ -98,6 +103,27 @@ async def support_websocket(
                 continue
 
             try:
+                purchase_plan = None
+                purchase_price = None
+
+                if payload.get("type") == "subscription_purchase":
+                    plan = payload.get("plan")
+
+                    if isinstance(plan, dict):
+                        purchase_plan = str(
+                            plan.get("label", "")
+                        )
+                        purchase_price = (
+                            SUBSCRIPTION_PURCHASE_PLANS.get(
+                                purchase_plan
+                            )
+                        )
+
+                    if not purchase_price:
+                        raise ValueError(
+                            "Unsupported subscription plan"
+                        )
+
                 await support_service.send_message(
                     subscription.id,
                     sender="client",
@@ -106,6 +132,13 @@ async def support_websocket(
                         payload.get("messageType", "text")
                     ),
                     image=payload.get("image"),
+                    client_email=subscription.client_email,
+                    subscription_token=(
+                        subscription.subscription_token
+                    ),
+                    user_id=subscription.user_id,
+                    purchase_plan=purchase_plan,
+                    purchase_price=purchase_price,
                 )
             except ValueError as error:
                 await websocket.send_json(

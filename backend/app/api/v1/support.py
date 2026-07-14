@@ -88,6 +88,9 @@ async def send_message(
         subscription.id,
         sender="client",
         text=payload.text,
+        client_email=subscription.client_email,
+        subscription_token=subscription.subscription_token,
+        user_id=subscription.user_id,
     )
 
     return support_service.serialize_message(message)
