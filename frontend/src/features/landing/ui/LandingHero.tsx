@@ -1,7 +1,7 @@
 "use client";
 
 import { getMyVpn } from "@/shared/api/vpn";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 import { useRouter } from "next/navigation";
 import { KalitkaLogo } from "@/components/brand/KalitkaLogo";
@@ -13,25 +13,37 @@ import { Spinner } from "@/shared/ui/Spinner/Spinner";
 import styles from "./LandingHero.module.css";
 
 export function LandingHero() {
-  const { loading, trial, error, startTrial } = useCreateTrial();
+  const { loading, startTrial } = useCreateTrial();
 
   const router = useRouter();
+  const didRedirectRef = useRef(false);
 
   useEffect(() => {
+    let ignore = false;
+
     async function checkSubscription() {
       try {
         const vpn = await getMyVpn();
 
-        if (vpn.active) {
-          router.replace("/my-vpn");
+        if (
+          vpn.active &&
+          !ignore &&
+          !didRedirectRef.current
+        ) {
+          didRedirectRef.current = true;
+          window.location.replace("/my-vpn");
         }
       } catch {
         // Нет активной подписки — остаёмся на главной.
-      } 
+      }
     }
 
     checkSubscription();
-  }, [router]);
+
+    return () => {
+      ignore = true;
+    };
+  }, []);
 
   async function handleCreateTrial() {
     try {
