@@ -46,16 +46,6 @@ export function TrafficCard({ subscriptionUrl }: Props) {
   return (
     <>
       <Card className={styles.card}>
-        <div className={styles.header}>
-          <h2 className={styles.title}>
-            Подключите VPN
-          </h2>
-
-          <p className={styles.subtitle}>
-            Начните со ссылки. Дальше приложение подскажет, что делать.
-          </p>
-        </div>
-
         <button
           className={styles.action}
           type="button"

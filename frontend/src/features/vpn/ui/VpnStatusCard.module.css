@@ -24,20 +24,10 @@
   content: "";
 }
 
-.hero {
+.status {
   position: relative;
   z-index: 1;
 
-  display: block;
-}
-
-.left {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-}
-
-.status {
   display: flex;
   align-items: flex-start;
   gap: 14px;
@@ -81,26 +71,6 @@
   font-weight: 800;
   line-height: 1.2;
   overflow-wrap: anywhere;
-}
-
-.title {
-  margin: 0;
-
-  color: var(--foreground);
-
-  font-size: 30px;
-  font-weight: 800;
-  line-height: 1.08;
-}
-
-.subtitle {
-  max-width: 560px;
-  margin: 14px 0 0 28px;
-
-  color: var(--muted);
-
-  font-size: 16px;
-  line-height: 1.48;
 }
 
 .separator {
@@ -245,15 +215,6 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .title {
-    font-size: 26px;
-  }
-
-  .subtitle {
-    margin-left: 0;
-    font-size: 15px;
-  }
-
 }
 
 @media (max-width: 420px) {
@@ -265,10 +226,6 @@
     width: 12px;
     height: 12px;
     margin-top: 8px;
-  }
-
-  .title {
-    font-size: 23px;
   }
 
   .trafficHeader,

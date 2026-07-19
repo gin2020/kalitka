@@ -46,27 +46,13 @@ export function VpnStatusCard({
       className={styles.card}
       padding="spacious"
     >
-      <div className={styles.hero}>
-        <div className={styles.left}>
-          <div className={styles.status}>
-            <span className={styles.dot} />
+      <div className={styles.status}>
+        <span className={styles.dot} />
 
-            <div>
-              <div className={styles.eyebrow}>
-                <span className={styles.statusPill}>
-                  {statusLabel}
-                </span>
-              </div>
-
-              <h2 className={styles.title}>
-                VPN готов к подключению
-              </h2>
-            </div>
-          </div>
-
-          <p className={styles.subtitle}>
-            Доступ создан. Можно подключаться и пользоваться VPN.
-          </p>
+        <div className={styles.eyebrow}>
+          <span className={styles.statusPill}>
+            {statusLabel}
+          </span>
         </div>
       </div>
 

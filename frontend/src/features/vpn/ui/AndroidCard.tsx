@@ -27,9 +27,9 @@ export function AndroidCard() {
       >
         <span className={styles.content}>
           <span className={styles.platformIcon} aria-hidden="true">◉</span>
-          <span className={styles.title}>Android</span>
+          <span className={styles.title}>Инструкция для Android</span>
           <span className={styles.subtitle}>
-            Откройте приложение и вставьте ссылку
+            Установите приложение из Google Play и вставьте в него скопированную ссылку
           </span>
         </span>
 
@@ -44,7 +44,7 @@ export function AndroidCard() {
       <div className={styles.panelWrap} data-open={open}>
         <div className={styles.panel}>
           <p className={styles.panelText}>
-            Выберите любое приложение:
+            Установите любое приложение из Goole Play:
           </p>
 
           <ul className={styles.appList}>
