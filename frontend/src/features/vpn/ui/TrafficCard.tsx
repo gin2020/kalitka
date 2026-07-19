@@ -31,7 +31,6 @@ async function copyText(value: string) {
 export function TrafficCard({ subscriptionUrl }: Props) {
   const [toastMessage, setToastMessage] = useState("");
   const [toastOpen, setToastOpen] = useState(false);
-  const [instructionsOpen, setInstructionsOpen] = useState(false);
 
   async function handleCopy(value: string, message: string) {
     try {
@@ -66,34 +65,6 @@ export function TrafficCard({ subscriptionUrl }: Props) {
           <span>Скопировать ссылку</span>
         </button>
 
-        <p className={styles.hint}>
-          Затем выберите приложение ниже.
-        </p>
-
-        <button
-          className={styles.instructionsTrigger}
-          type="button"
-          aria-expanded={instructionsOpen}
-          onClick={() => setInstructionsOpen((value) => !value)}
-        >
-          <span aria-hidden="true">✦</span>
-          <span>Как подключить VPN</span>
-          <span className={styles.instructionsChevron} aria-hidden="true">
-            {instructionsOpen ? "−" : "+"}
-          </span>
-        </button>
-
-        <div
-          className={styles.instructionsWrap}
-          data-open={instructionsOpen}
-        >
-          <ol className={styles.steps}>
-            <li><span>1</span>Скопируйте ссылку</li>
-            <li><span>2</span>Откройте приложение ниже</li>
-            <li><span>3</span>Вставьте ссылку</li>
-            <li><span>4</span>Нажмите «Подключить»</li>
-          </ol>
-        </div>
       </Card>
 
       <Toast

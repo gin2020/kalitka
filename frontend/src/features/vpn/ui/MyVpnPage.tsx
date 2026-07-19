@@ -7,7 +7,6 @@ import { useEffect, useState } from "react";
 import { TrafficCard } from "./TrafficCard";
 import { AndroidCard } from "./AndroidCard";
 import { IOSCard } from "./iOSCard";
-import { PurchaseCard } from "./PurchaseCard";
 import { SupportCard } from "./SupportCard";
 
 import {
@@ -86,8 +85,6 @@ export function MyVpnPage() {
       <IOSCard />
 
       <AndroidCard />
-
-      <PurchaseCard />
 
       <SupportCard />
     </>
