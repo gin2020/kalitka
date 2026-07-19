@@ -7,11 +7,22 @@ import { Card } from "@/shared/ui/Card/Card";
 import styles from "./PlatformCard.module.css";
 
 const apps = [
-  "Happ",
-  "v2RayTun",
-  "V2BOX",
-  "Hiddify",
-  "v2rayNG",
+  {
+    name: "Happ",
+    href: "https://play.google.com/store/apps/details?id=com.happproxy",
+  },
+  {
+    name: "v2RayTun",
+    href: "https://play.google.com/store/apps/details?id=com.v2raytun.android",
+  },
+  {
+    name: "V2BOX",
+    href: "https://play.google.com/store/apps/details?id=dev.hexasoftware.v2box",
+  },
+  {
+    name: "Hiddify",
+    href: "https://play.google.com/store/apps/details?id=app.hiddify.com",
+  },
 ];
 
 export function AndroidCard() {
@@ -51,9 +62,16 @@ export function AndroidCard() {
             {apps.map((app) => (
               <li
                 className={styles.appItem}
-                key={app}
+                key={app.name}
               >
-                {app}
+                <a
+                  className={styles.appLink}
+                  href={app.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {app.name}
+                </a>
               </li>
             ))}
           </ul>
