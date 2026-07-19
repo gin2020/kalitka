@@ -1,5 +1,10 @@
 .card {
   overflow: hidden;
+  border-color: rgba(39, 107, 159, 0.12);
+  background: rgba(255, 255, 255, 0.78);
+  box-shadow: 0 14px 36px rgba(36, 79, 112, 0.07);
+  backdrop-filter: blur(12px);
+  animation: appear 220ms ease-out both;
 }
 
 .trigger {
@@ -8,13 +13,11 @@
   justify-content: space-between;
   gap: 14px;
   width: 100%;
-  min-height: 54px;
-  padding: 0;
-
+  min-height: 62px;
+  padding: 2px;
   border: 0;
   background: transparent;
   color: var(--foreground);
-
   text-align: left;
   cursor: pointer;
 }
@@ -26,21 +29,34 @@
 
 .content {
   display: grid;
-  gap: 6px;
+  grid-template-columns: 28px minmax(0, 1fr);
+  column-gap: 10px;
+  row-gap: 4px;
   min-width: 0;
+}
+
+.platformIcon {
+  grid-row: span 2;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  margin-top: 1px;
+  border-radius: 9px;
+  background: var(--info-soft);
+  color: var(--info);
+  font-size: 13px;
 }
 
 .title {
   color: var(--foreground);
-
-  font-size: 22px;
+  font-size: 18px;
   font-weight: 800;
   line-height: 1.2;
 }
 
 .subtitle {
   color: var(--muted);
-
   font-size: 14px;
   font-weight: 600;
   line-height: 1.35;
@@ -52,28 +68,38 @@
   flex: 0 0 auto;
   width: 34px;
   height: 34px;
-
   border: 1px solid var(--line);
   border-radius: 999px;
-  background: var(--surface-muted);
-  color: var(--muted);
-
+  background: #f4f8fb;
+  color: var(--info);
   font-size: 20px;
   font-weight: 700;
   line-height: 1;
 }
 
+.panelWrap {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition: grid-template-rows 210ms ease, opacity 180ms ease;
+}
+
+.panelWrap[data-open="true"] {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+
 .panel {
   display: grid;
   gap: 12px;
+  min-height: 0;
+  overflow: hidden;
   padding-top: 16px;
 }
 
 .panelText {
   margin: 0;
-
   color: var(--muted);
-
   font-size: 14px;
   line-height: 1.45;
 }
@@ -84,41 +110,54 @@
   gap: 8px;
   margin: 0;
   padding: 0;
-
   list-style: none;
 }
 
 .appItem {
   padding: 8px 10px;
-
   border: 1px solid var(--line);
   border-radius: 999px;
-  background: var(--surface-muted);
+  background: rgba(244, 248, 251, 0.84);
   color: var(--foreground);
-
   font-size: 13px;
   font-weight: 700;
   line-height: 1;
 }
 
+@keyframes appear {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @media (hover: hover) {
   .trigger:hover {
-    background: #f7fbf8;
+    background: #f8fbfd;
   }
 }
 
 @media (max-width: 420px) {
   .trigger {
     align-items: flex-start;
-    min-height: 50px;
-  }
-
-  .title {
-    font-size: 20px;
+    min-height: 58px;
   }
 
   .chevron {
     width: 32px;
     height: 32px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .panelWrap {
+    animation: none;
+    transition: none;
   }
 }

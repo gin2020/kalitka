@@ -31,6 +31,7 @@ async function copyText(value: string) {
 export function TrafficCard({ subscriptionUrl }: Props) {
   const [toastMessage, setToastMessage] = useState("");
   const [toastOpen, setToastOpen] = useState(false);
+  const [instructionsOpen, setInstructionsOpen] = useState(false);
 
   async function handleCopy(value: string, message: string) {
     try {
@@ -48,34 +49,50 @@ export function TrafficCard({ subscriptionUrl }: Props) {
       <Card className={styles.card}>
         <div className={styles.header}>
           <h2 className={styles.title}>
-            Данные для подключения
+            Подключите VPN
           </h2>
 
           <p className={styles.subtitle}>
-            Нажмите на нужный блок, чтобы скопировать ссылку.
+            Начните со ссылки. Дальше приложение подскажет, что делать.
           </p>
         </div>
 
-        <div className={styles.actions}>
-          <button
-            className={styles.action}
-            type="button"
-            onClick={() =>
-              handleCopy(subscriptionUrl, "Подписка скопирована")
-            }
-          >
-            <span className={styles.icon}>📋</span>
+        <button
+          className={styles.action}
+          type="button"
+          onClick={() => handleCopy(subscriptionUrl, "Ссылка скопирована")}
+        >
+          <span className={styles.icon} aria-hidden="true">📋</span>
+          <span>Скопировать ссылку</span>
+        </button>
 
-            <span className={styles.content}>
-              <span className={styles.actionTitle}>
-                Скопировать подписку
-              </span>
+        <p className={styles.hint}>
+          Затем выберите приложение ниже.
+        </p>
 
-              <span className={styles.link}>
-                скопировать конфигурацию
-              </span>
-            </span>
-          </button>
+        <button
+          className={styles.instructionsTrigger}
+          type="button"
+          aria-expanded={instructionsOpen}
+          onClick={() => setInstructionsOpen((value) => !value)}
+        >
+          <span aria-hidden="true">✦</span>
+          <span>Как подключить VPN</span>
+          <span className={styles.instructionsChevron} aria-hidden="true">
+            {instructionsOpen ? "−" : "+"}
+          </span>
+        </button>
+
+        <div
+          className={styles.instructionsWrap}
+          data-open={instructionsOpen}
+        >
+          <ol className={styles.steps}>
+            <li><span>1</span>Скопируйте ссылку</li>
+            <li><span>2</span>Откройте приложение ниже</li>
+            <li><span>3</span>Вставьте ссылку</li>
+            <li><span>4</span>Нажмите «Подключить»</li>
+          </ol>
         </div>
       </Card>
 

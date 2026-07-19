@@ -59,7 +59,7 @@ export function VpnStatusCard({
               </div>
 
               <h2 className={styles.title}>
-                VPN подписка готова
+                VPN готов к подключению
               </h2>
             </div>
           </div>

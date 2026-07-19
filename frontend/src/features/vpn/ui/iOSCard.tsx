@@ -28,9 +28,10 @@ export function IOSCard() {
         onClick={() => setOpen((value) => !value)}
       >
         <span className={styles.content}>
-          <span className={styles.title}>iOS</span>
+          <span className={styles.platformIcon} aria-hidden="true">●</span>
+          <span className={styles.title}>iPhone и iPad</span>
           <span className={styles.subtitle}>
-            Инструкция для подключения
+            Откройте приложение и вставьте ссылку
           </span>
         </span>
 
@@ -42,10 +43,10 @@ export function IOSCard() {
         </span>
       </button>
 
-      {open && (
+      <div className={styles.panelWrap} data-open={open}>
         <div className={styles.panel}>
           <p className={styles.panelText}>
-            Скопированную подписку поддерживают:
+            Выберите любое приложение:
           </p>
 
           <ul className={styles.appList}>
@@ -59,7 +60,7 @@ export function IOSCard() {
             ))}
           </ul>
         </div>
-      )}
+      </div>
     </Card>
   );
 }

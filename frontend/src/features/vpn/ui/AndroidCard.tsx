@@ -26,9 +26,10 @@ export function AndroidCard() {
         onClick={() => setOpen((value) => !value)}
       >
         <span className={styles.content}>
+          <span className={styles.platformIcon} aria-hidden="true">◉</span>
           <span className={styles.title}>Android</span>
           <span className={styles.subtitle}>
-            Инструкция для подключения
+            Откройте приложение и вставьте ссылку
           </span>
         </span>
 
@@ -40,10 +41,10 @@ export function AndroidCard() {
         </span>
       </button>
 
-      {open && (
+      <div className={styles.panelWrap} data-open={open}>
         <div className={styles.panel}>
           <p className={styles.panelText}>
-            Скопированную подписку поддерживают:
+            Выберите любое приложение:
           </p>
 
           <ul className={styles.appList}>
@@ -57,7 +58,7 @@ export function AndroidCard() {
             ))}
           </ul>
         </div>
-      )}
+      </div>
     </Card>
   );
 }
