@@ -10,6 +10,26 @@
   animation: appear 220ms ease-out both;
 }
 
+.header {
+  display: grid;
+  gap: 6px;
+}
+
+.title {
+  margin: 0;
+  color: var(--foreground);
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.subtitle {
+  margin: 0;
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.45;
+}
+
 .action {
   display: flex;
   align-items: center;
@@ -68,6 +88,9 @@
     min-height: 54px;
   }
 
+  .title {
+    font-size: 22px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

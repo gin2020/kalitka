@@ -46,6 +46,14 @@ export function TrafficCard({ subscriptionUrl }: Props) {
   return (
     <>
       <Card className={styles.card}>
+        <div className={styles.header}>
+          <h2 className={styles.title}>VPN подписка готова</h2>
+
+          <p className={styles.subtitle}>
+            Доступ создан. Можно подключаться и пользоваться VPN
+          </p>
+        </div>
+
         <button
           className={styles.action}
           type="button"
@@ -54,7 +62,6 @@ export function TrafficCard({ subscriptionUrl }: Props) {
           <span className={styles.icon} aria-hidden="true">📋</span>
           <span>Скопировать ссылку</span>
         </button>
-
       </Card>
 
       <Toast
