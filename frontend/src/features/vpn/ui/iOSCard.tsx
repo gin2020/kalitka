@@ -7,13 +7,34 @@ import { Card } from "@/shared/ui/Card/Card";
 import styles from "./PlatformCard.module.css";
 
 const apps = [
-  "Shadowrocket",
-  "Happ",
-  "v2RayTun",
-  "Streisand",
-  "V2BOX",
-  "RabbitHole",
-  "Hiddify",
+  {
+    name: "Shadowrocket",
+    href: "https://apps.apple.com/ua/app/shadowrocket/id932747118",
+  },
+  {
+    name: "Happ",
+    href: "https://apps.apple.com/ua/app/happ-proxy-utility/id6504287215",
+  },
+  {
+    name: "v2RayTun",
+    href: "https://apps.apple.com/ua/app/v2raytun/id6476628951",
+  },
+  {
+    name: "Streisand",
+    href: "https://apps.apple.com/ua/app/streisand/id6450534064",
+  },
+  {
+    name: "V2BOX",
+    href: "https://apps.apple.com/ua/app/v2box-v2ray-client/id6446814690",
+  },
+  {
+    name: "RabbitHole",
+    href: "https://apps.apple.com/ua/app/rabbithole-vpn-client/id6683309629",
+  },
+  {
+    name: "Hiddify",
+    href: "https://apps.apple.com/ua/app/hiddify-proxy-vpn/id6596777532",
+  },
 ];
 
 export function IOSCard() {
@@ -53,9 +74,16 @@ export function IOSCard() {
             {apps.map((app) => (
               <li
                 className={styles.appItem}
-                key={app}
+                key={app.name}
               >
-                {app}
+                <a
+                  className={styles.appLink}
+                  href={app.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {app.name}
+                </a>
               </li>
             ))}
           </ul>

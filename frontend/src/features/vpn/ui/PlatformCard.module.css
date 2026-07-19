@@ -114,14 +114,32 @@
 }
 
 .appItem {
-  padding: 8px 10px;
   border: 1px solid var(--line);
   border-radius: 999px;
   background: rgba(244, 248, 251, 0.84);
+}
+
+.appLink {
+  display: flex;
+  align-items: center;
+  padding: 8px 10px;
+  border-radius: inherit;
   color: var(--foreground);
   font-size: 13px;
   font-weight: 700;
   line-height: 1;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 160ms ease, opacity 160ms ease, transform 160ms ease;
+}
+
+.appLink:focus-visible {
+  outline: 0;
+  box-shadow: var(--focus-ring);
+}
+
+.appLink:active {
+  transform: scale(0.97);
 }
 
 @keyframes appear {
@@ -140,6 +158,10 @@
   .trigger:hover {
     background: #f8fbfd;
   }
+
+  .appLink:hover {
+    background: rgba(39, 107, 159, 0.08);
+  }
 }
 
 @media (max-width: 420px) {
@@ -156,7 +178,8 @@
 
 @media (prefers-reduced-motion: reduce) {
   .card,
-  .panelWrap {
+  .panelWrap,
+  .appLink {
     animation: none;
     transition: none;
   }
